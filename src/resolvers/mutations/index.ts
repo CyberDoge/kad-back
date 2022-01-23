@@ -1,3 +1,4 @@
 import login from './login';
+import registration from './registration';
 
-export default {login};
+export default {login, registration};

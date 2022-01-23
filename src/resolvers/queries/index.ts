@@ -1,1 +1,5 @@
-export default {};
+export default {
+    test: () => {
+        return 'hello world';
+    }
+};
