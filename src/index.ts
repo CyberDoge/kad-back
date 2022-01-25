@@ -16,7 +16,9 @@ async function startApolloServer(typeDefs: IExecutableSchemaDefinition['typeDefs
     const app = express();
     app.use(morgan(config.parsed.LOG_FORMAT, {stream: {write: console.log}}));
     app.use(session({
-        secret: config.parsed.SESSION_SECRET
+        secret: config.parsed.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false
     }));
     const httpServer = http.createServer(app);
     const server = new ApolloServer({

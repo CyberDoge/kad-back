@@ -17,6 +17,9 @@
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "baseUrl": ".",
+    "paths": {
+      "src": ["src/*"]
+    },
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -37,5 +40,8 @@
       "es2015.symbol.wellknown",
       "esnext.asynciterable"
     ],
+  },
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
   }
 }

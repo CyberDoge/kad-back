@@ -1,6 +1,6 @@
 import {ApolloError} from 'apollo-server-express';
-import {LoginCredentials} from 'types/request/LoginCredentials';
-import {LoginServiceImpl} from 'services/LoginServiceImpl';
+import {LoginCredentials} from 'src/types/request/LoginCredentials';
+import {LoginServiceImpl} from 'src/services/LoginServiceImpl';
 
 // todo перенести в замыкание
 const loginService = new LoginServiceImpl();
