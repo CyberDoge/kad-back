@@ -3,8 +3,8 @@ import {Auth, User} from 'src/models/interfaces';
 import {LoginCredentials} from 'src/types/request';
 import {provideAuthToken} from 'src/utils/authTokenProvider';
 import {ModelContext} from 'src/context/ModelContext';
+import {LoginResponse} from 'src/types/responses';
 import {LoginService} from './LoginService';
-import {LoginResponse} from '../../types/responses';
 
 export class LoginServiceImpl implements LoginService {
     private auth: Auth;

@@ -3,27 +3,32 @@ import {InMemoryAuth, InMemoryRole, InMemoryUser} from 'src/models/impl';
 import {RoleType} from 'src/models/interfaces/RoleType';
 import {AuthContext} from './AuthContext';
 import {ModelContext} from './ModelContext';
+import {OrderContext} from './OrderContext';
+import {Order} from '../models/interfaces/Order';
 
-export class Context implements AuthContext, ModelContext {
+export class Context implements AuthContext, ModelContext, OrderContext {
+    private _auth: Auth;
+    private _user: User;
+    private _role: Role;
+    private _order: Order;
+
     constructor() {
         this._auth = new InMemoryAuth();
         this._user = new InMemoryUser();
         this._role = new InMemoryRole();
     }
 
-    private _auth: Auth;
+    get order(): Order {
+        return this._order;
+    }
 
     get auth(): Auth {
         return this._auth;
     }
 
-    private _user: User;
-
     get user(): User {
         return this._user;
     }
-
-    private _role: Role;
 
     get role(): Role {
         return this._role;

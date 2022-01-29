@@ -1,5 +1,4 @@
-import {Auth} from './Auth';
-import {User} from './User';
-import {Role} from './RoleType';
+export * from './Auth';
+export * from './User';
+export * from './RoleType';
 
-export {Auth, User, Role};

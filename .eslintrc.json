@@ -3,10 +3,24 @@
     "browser": true,
     "es2021": true
   },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": [
+          "./"
+        ],
+        "extensions": [
+          ".js",
+          ".ts"
+        ]
+      }
+    }
+  },
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -14,9 +28,25 @@
     "sourceType": "module"
   },
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "import"
   ],
   "rules": {
-    "prefer-template": "error"
+    "import/no-unresolved": [
+      2,
+      {
+        "commonjs": true,
+        "amd": true
+      }
+    ],
+    "prefer-template": "error",
+    "prefer-destructuring": "error",
+    "import/no-default-export": "error",
+    "max-len": [
+      "error",
+      {
+        "code": 120
+      }
+    ]
   }
 }

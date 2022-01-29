@@ -1,5 +1,6 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
+    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="true" />
     <JSCodeStyleSettings version="0">
       <option name="FORCE_SEMICOLON_STYLE" value="true" />
       <option name="USE_DOUBLE_QUOTES" value="false" />
@@ -20,6 +21,14 @@
       <option name="INDENT_CASE_FROM_SWITCH" value="false" />
       <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
       <option name="ALIGN_MULTILINE_FOR" value="false" />
+      <arrangement>
+        <groups>
+          <group>
+            <type>TREAT_LAMBDA_INITIALIZED_FIELDS_AS_METHODS</type>
+            <order>KEEP</order>
+          </group>
+        </groups>
+      </arrangement>
     </codeStyleSettings>
   </code_scheme>
 </component>

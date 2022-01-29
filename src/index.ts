@@ -6,13 +6,16 @@ import http from 'http';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import {IExecutableSchemaDefinition} from '@graphql-tools/schema';
-import typeDefs from './typeDefs';
+import {typeDefs} from './typeDefs';
 import {generateContext} from './factory/generateContext';
 import {configureResolvers} from './configure/configureResolvers';
 
 const config = dotenv.config();
 
-async function startApolloServer(typeDefs: IExecutableSchemaDefinition['typeDefs'], resolvers: IExecutableSchemaDefinition['resolvers']) {
+async function startApolloServer(
+    typeDefs: IExecutableSchemaDefinition['typeDefs'],
+    resolvers: IExecutableSchemaDefinition['resolvers']
+) {
     if (!config.parsed) {
         throw new Error('.env parsing error');
     }
@@ -36,5 +39,5 @@ async function startApolloServer(typeDefs: IExecutableSchemaDefinition['typeDefs
     console.log(`Server ready at localhost${config.parsed.APP_PORT}${server.graphqlPath}`);
 }
 
-const resolvers = configureResolvers()
+const resolvers = configureResolvers();
 startApolloServer(typeDefs, resolvers);

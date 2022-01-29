@@ -1,9 +1,9 @@
 import {Login} from './Login';
 import {Registration} from './Registration';
-import {HelloWorld} from './HelloWorld';
+import {Order} from './Order';
 
-export default [
-    HelloWorld,
+export const typeDefs = [
     Login,
-    Registration
+    Registration,
+    Order
 ];
