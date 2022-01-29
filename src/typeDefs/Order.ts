@@ -1,5 +1,5 @@
-import {gql} from 'apollo-server-express';
 import {COMMON_ORDERS_ARRAY_LENGTH} from 'src/consts';
+import {gql} from 'apollo-server-express';
 
 
 export const Order = gql`

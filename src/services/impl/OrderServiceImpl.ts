@@ -1,10 +1,10 @@
-import {OrderService} from './OrderService';
+import {ValidationError} from 'apollo-server-errors';
+import {isMatch, parse} from 'date-fns';
+import {MAX_SAFE_DATE} from 'src/consts';
 import {OrderContext} from 'src/context/OrderContext';
 import {Order, OrderType} from 'src/models/interfaces/Order';
 import {OrderFilter} from 'src/types/request/OrderFilter';
-import {parse, isMatch} from 'date-fns';
-import {ValidationError} from 'apollo-server-errors';
-import {MAX_SAFE_DATE} from 'src/consts';
+import {OrderService} from '../interfaces';
 
 const MAX_ORDERS_ARRAY_LENGTH = 100;
 const DATE_FORMAT = 'dd-MM-yyyy';

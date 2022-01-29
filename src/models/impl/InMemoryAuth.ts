@@ -1,4 +1,4 @@
-import {Auth} from '../interfaces/Auth';
+import {Auth} from '../interfaces';
 
 export class InMemoryAuth implements Auth {
     private authMap: Map<string, string>;

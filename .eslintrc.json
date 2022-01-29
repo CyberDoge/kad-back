@@ -49,6 +49,7 @@
       }
     ],
     "newline-before-return": "error",
-    "indent": "error"
+    "indent": "error",
+    "strict": "error"
   }
 }

@@ -1,4 +1,4 @@
-import {Order, OrderFilterType, OrderType} from '../interfaces/Order';
+import {Order, OrderFilterType, OrderType} from '../interfaces';
 
 export class InMemoryOrder implements Order {
     private orders: OrderType[];

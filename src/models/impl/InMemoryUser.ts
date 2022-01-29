@@ -1,4 +1,4 @@
-import {User, UserType} from '../interfaces/User';
+import {User, UserType} from '../interfaces';
 
 export class InMemoryUser implements User {
     private userMap: UserType[];

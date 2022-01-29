@@ -1,11 +1,11 @@
 import {ValidationError} from 'apollo-server-errors';
+import {ModelContext} from 'src/context/ModelContext';
 
 import {Auth, Role, User} from 'src/models/interfaces';
-import {RegistrationService} from './RegistrationService';
 import {RegisterCredentials} from 'src/types/request';
 import {LoginResponse} from 'src/types/responses';
 import {provideAuthToken} from 'src/utils/authTokenProvider';
-import {ModelContext} from 'src/context/ModelContext';
+import {RegistrationService} from '../interfaces';
 
 export class RegistrationServiceImpl implements RegistrationService {
     private auth: Auth;
@@ -32,7 +32,7 @@ export class RegistrationServiceImpl implements RegistrationService {
         this.user.create(newUser);
         const token = provideAuthToken();
         this.auth.setUserIdByAuthorization(token, newUser._id);
-        
+
         return {
             token,
             userId: newUser._id

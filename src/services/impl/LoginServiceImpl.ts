@@ -1,10 +1,10 @@
 import {AuthenticationError} from 'apollo-server-express';
+import {ModelContext} from 'src/context/ModelContext';
 import {Auth, User} from 'src/models/interfaces';
 import {LoginCredentials} from 'src/types/request';
-import {provideAuthToken} from 'src/utils/authTokenProvider';
-import {ModelContext} from 'src/context/ModelContext';
 import {LoginResponse} from 'src/types/responses';
-import {LoginService} from './LoginService';
+import {provideAuthToken} from 'src/utils/authTokenProvider';
+import {LoginService} from '../interfaces';
 
 export class LoginServiceImpl implements LoginService {
     private auth: Auth;
@@ -31,7 +31,7 @@ export class LoginServiceImpl implements LoginService {
         }
         const token = provideAuthToken();
         this.auth.setUserIdByAuthorization(token, user._id);
-        
+
         return {token, userId: user._id};
     }
 

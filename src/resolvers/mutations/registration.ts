@@ -1,5 +1,5 @@
+import {RegistrationService} from 'src/services/interfaces/RegistrationService';
 import {RegisterCredentials} from 'src/types/request/RegisterCredentials';
-import {RegistrationService} from 'src/services/registrationServices/RegistrationService';
 
 export const registration = (registrationService: RegistrationService) =>
     (_, {credentials}: { credentials: RegisterCredentials }) => {

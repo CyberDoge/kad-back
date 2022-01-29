@@ -1,5 +1,5 @@
 import {OrderFilter} from 'src/types/request/OrderFilter';
-import {OrderService} from 'src/services/orderServices/OrderService';
+import {OrderService} from 'src/services/interfaces/OrderService';
 
 
 export const order = (orderService: OrderService) =>
