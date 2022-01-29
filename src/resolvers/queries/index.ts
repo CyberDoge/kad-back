@@ -1,5 +1,3 @@
-export default {
-    test: () => {
-        return 'hello world';
-    }
+export const test = () => {
+    return 'hello world';
 };

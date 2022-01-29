@@ -7,12 +7,15 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import {IExecutableSchemaDefinition} from '@graphql-tools/schema';
 import typeDefs from './typeDefs';
-import resolvers from './resolvers';
 import {generateContext} from './factory/generateContext';
+import {configureResolvers} from './configure/configureResolvers';
 
 const config = dotenv.config();
 
 async function startApolloServer(typeDefs: IExecutableSchemaDefinition['typeDefs'], resolvers: IExecutableSchemaDefinition['resolvers']) {
+    if (!config.parsed) {
+        throw new Error('.env parsing error');
+    }
     const app = express();
     app.use(morgan(config.parsed.LOG_FORMAT, {stream: {write: console.log}}));
     app.use(session({
@@ -29,9 +32,9 @@ async function startApolloServer(typeDefs: IExecutableSchemaDefinition['typeDefs
     });
     await server.start();
     server.applyMiddleware({app});
-    await new Promise<void>(resolve => httpServer.listen({port: config.parsed.APP_PORT}, resolve));
+    await httpServer.listen({port: config.parsed.APP_PORT});
     console.log(`Server ready at localhost${config.parsed.APP_PORT}${server.graphqlPath}`);
 }
 
-
+const resolvers = configureResolvers()
 startApolloServer(typeDefs, resolvers);

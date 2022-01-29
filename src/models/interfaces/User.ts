@@ -1,4 +1,4 @@
-import {RoleType} from './Role';
+import {RoleType} from './RoleType';
 
 export type UserType = {
     _id: string;
@@ -10,4 +10,5 @@ export type UserType = {
 export interface User {
     findById(id: string): Promise<UserType | undefined>;
     findByEmail(email: string): Promise<UserType | undefined>;
+    create(user: UserType): Promise<void>
 }

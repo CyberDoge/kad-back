@@ -1,4 +1,4 @@
-import {RoleType} from 'src/models/interfaces/Role';
+import {RoleType} from '../models/interfaces/RoleType';
 
 export interface AuthContext {
     getAuthScope(authorization: string): Promise<RoleType['roleName'][]>;

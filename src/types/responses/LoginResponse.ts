@@ -1,7 +1,6 @@
-import {ApolloError} from 'apollo-server-express';
+import {UserType} from 'src/models/interfaces/User';
 
 export interface LoginResponse {
-    token?: string;
-    userId?: string;
-    error?: ApolloError;
+    token: string;
+    userId: UserType['_id'];
 }

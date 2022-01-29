@@ -13,11 +13,11 @@ export class InMemoryUser implements User {
 
     }
 
-    async findById(id: string): Promise<UserType> {
+    async findById(id: string): Promise<UserType | undefined> {
         return this.userMap.find(user => user._id === id);
     }
 
-    async findByEmail(email: string): Promise<UserType> {
+    async findByEmail(email: string): Promise<UserType | undefined> {
         return this.userMap.find(user => user.email === email);
     }
 }

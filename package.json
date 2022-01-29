@@ -9,7 +9,7 @@
   "scripts": {
     "develop": "nodemon ts-node src/index.ts",
     "test": "echo 'no test'",
-    "lint": "eslint src/** --fix"
+    "lint": "eslint . --ext .ts"
   },
   "bugs": {
     "url": "https://github.com/CyberDoge/kad-back/issues"
