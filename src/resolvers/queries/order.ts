@@ -3,6 +3,9 @@ import {OrderService} from 'src/services/orderServices/OrderService';
 
 
 export const order = (orderService: OrderService) =>
-    () => async (_, {orderFilter}: { orderFilter: OrderFilter }) => {
-        return await orderService.getOrdersByFilter(orderFilter);
-    };
+    ({
+        orders: async (_, {filter}: { filter: OrderFilter }) => {
+
+            return await orderService.getOrdersByFilter(filter);
+        }
+    });

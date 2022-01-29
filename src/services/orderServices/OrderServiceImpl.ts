@@ -2,12 +2,12 @@ import {OrderService} from './OrderService';
 import {OrderContext} from 'src/context/OrderContext';
 import {Order, OrderType} from 'src/models/interfaces/Order';
 import {OrderFilter} from 'src/types/request/OrderFilter';
-import {isValid, parse} from 'date-fns';
+import {parse, isMatch} from 'date-fns';
 import {ValidationError} from 'apollo-server-errors';
+import {MAX_SAFE_DATE} from 'src/consts';
 
-const COMMON_ORDERS_ARRAY_LENGTH = 20;
 const MAX_ORDERS_ARRAY_LENGTH = 100;
-const DATE_FORMAT = 'DD-MM-YYYY';
+const DATE_FORMAT = 'dd-MM-yyyy';
 
 export class OrderServiceImpl implements OrderService {
     private order: Order;
@@ -21,21 +21,24 @@ export class OrderServiceImpl implements OrderService {
             return [];
         }
 
-        if (filter.dateTo && !isValid(filter.dateTo) || filter.dateFrom && !isValid(filter.dateFrom)) {
+        if (
+            filter.dateTo && !isMatch(filter.dateTo, DATE_FORMAT)
+            || filter.dateFrom && !isMatch(filter.dateFrom, DATE_FORMAT)
+        ) {
             return new ValidationError('dates are not in valid format');
         }
 
         const filledFilter = {
-            start: filter.start || 0,
-            count: filter.count || COMMON_ORDERS_ARRAY_LENGTH,
+            start: filter.start,
+            count: filter.count,
             title: filter.title,
             description: filter.description,
-            priceFrom: filter.priceFrom || 0,
-            priceTo: filter.priceTo || Number.MAX_SAFE_INTEGER,
-            dateFrom: parse(filter.dateFrom || '', DATE_FORMAT, new Date(0)),
-            dateTo: parse(filter.dateTo || '', DATE_FORMAT, new Date(Number.MAX_SAFE_INTEGER)),
-
+            priceFrom: filter.priceFrom,
+            priceTo: filter.priceTo,
+            dateFrom: filter.dateFrom ? parse(filter.dateFrom, DATE_FORMAT, 0) : undefined,
+            dateTo: filter.dateTo ? parse(filter.dateTo, DATE_FORMAT, MAX_SAFE_DATE) : undefined,
         };
-        return await this.order.find(filledFilter);
+
+        return this.order.find(filledFilter);
     }
 }

@@ -32,6 +32,7 @@ export class RegistrationServiceImpl implements RegistrationService {
         this.user.create(newUser);
         const token = provideAuthToken();
         this.auth.setUserIdByAuthorization(token, newUser._id);
+        
         return {
             token,
             userId: newUser._id

@@ -6,12 +6,11 @@ export type OrderType = {
     price: number,
     date: Date,
 }
-export type OrderFilterType = Omit<OrderFilter, 'dateFrom' | 'dateTo'>
-    & Required<Pick<OrderFilter, 'count' | 'start' | 'priceFrom' | 'priceTo'>>
-
+export type OrderFilterType = Required<Pick<OrderFilter, 'count' | 'start'>>
+    & Omit<OrderFilter, 'dateFrom' | 'dateTo'>
     & {
-    dateFrom: Date,
-    dateTo: Date
+    dateFrom?: Date,
+    dateTo?: Date
 }
 
 

@@ -18,13 +18,14 @@ export class InMemoryOrder implements Order {
     async find(filter: OrderFilterType)
         : Promise<OrderType[]> {
         const {start, count, ...restFilter} = filter;
-        return this.orders.splice(start, start + count).filter((order) =>
+
+        return this.orders.filter((order) =>
             (restFilter.title ? order.title.includes(restFilter.title) : true)
-            && order.price > (restFilter.priceFrom)
-            && order.price < (restFilter.priceTo)
-            && order.date > restFilter.dateFrom
-            && order.date < restFilter.dateTo
-        );
+            && (restFilter.priceFrom ? order.price > (restFilter.priceFrom) : true)
+            && (restFilter.priceTo ? order.price < (restFilter.priceTo) : true)
+            && (restFilter.dateFrom ? order.date > restFilter.dateFrom : true)
+            && (restFilter.dateTo ? order.date < restFilter.dateTo : true)
+        ).slice(start, start + count);
 
     }
 

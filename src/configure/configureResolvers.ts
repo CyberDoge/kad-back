@@ -10,13 +10,14 @@ export const configureResolvers = () => {
     const loginService = new LoginServiceImpl(context);
     const registrationService = new RegistrationServiceImpl(context);
     const orderService = new OrderServiceImpl(context);
+    
     return {
         Mutation: {
             login: login(loginService),
             registration: registration(registrationService)
         },
         Query: {
-            order: order(orderService)
+            ...order(orderService)
         }
     };
 };

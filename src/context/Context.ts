@@ -4,7 +4,8 @@ import {RoleType} from 'src/models/interfaces/RoleType';
 import {AuthContext} from './AuthContext';
 import {ModelContext} from './ModelContext';
 import {OrderContext} from './OrderContext';
-import {Order} from '../models/interfaces/Order';
+import {Order} from 'src/models/interfaces/Order';
+import {InMemoryOrder} from 'src/models/impl/InMemoryOrder';
 
 export class Context implements AuthContext, ModelContext, OrderContext {
     private _auth: Auth;
@@ -16,6 +17,7 @@ export class Context implements AuthContext, ModelContext, OrderContext {
         this._auth = new InMemoryAuth();
         this._user = new InMemoryUser();
         this._role = new InMemoryRole();
+        this._order = new InMemoryOrder();
     }
 
     get order(): Order {
@@ -39,6 +41,7 @@ export class Context implements AuthContext, ModelContext, OrderContext {
         if (!userId) {
             return [];
         }
+
         return (await this._user.findById(userId))?.roles.map(r => r.roleName) || [];
     }
 

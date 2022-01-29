@@ -31,6 +31,7 @@ export class LoginServiceImpl implements LoginService {
         }
         const token = provideAuthToken();
         this.auth.setUserIdByAuthorization(token, user._id);
+        
         return {token, userId: user._id};
     }
 

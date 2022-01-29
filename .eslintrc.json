@@ -47,6 +47,8 @@
       {
         "code": 120
       }
-    ]
+    ],
+    "newline-before-return": "error",
+    "indent": "error"
   }
 }

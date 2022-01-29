@@ -1,4 +1,6 @@
 import {gql} from 'apollo-server-express';
+import {COMMON_ORDERS_ARRAY_LENGTH} from 'src/consts';
+
 
 export const Order = gql`
     type Order {
@@ -10,7 +12,7 @@ export const Order = gql`
 
     input OrderFilter {
         start: Int = 0,
-        count: Int = 20,
+        count: Int = ${COMMON_ORDERS_ARRAY_LENGTH},
         title: String,
         description: String,
         priceFrom: Float,
@@ -19,6 +21,6 @@ export const Order = gql`
         dateTo: String,
     }
     type Query {
-        orders(filter: OrderFilter): [Order]
+        orders(filter: OrderFilter!): [Order]
     }
 `;

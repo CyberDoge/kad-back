@@ -1,5 +1,4 @@
-import {Role} from '../interfaces';
-import {RoleType} from '../interfaces/RoleType';
+import {Role, RoleType} from '../interfaces';
 
 export class InMemoryRole implements Role {
     private roles: RoleType[];
@@ -26,6 +25,7 @@ export class InMemoryRole implements Role {
         if (!roleType) {
             throw new Error(`invalid roleName=${name}provided`);
         }
+
         return roleType;
     }
 }
