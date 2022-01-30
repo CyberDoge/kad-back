@@ -1,7 +1,8 @@
+import {Optional} from 'src/utils/typeUtils';
 import {RoleType} from './RoleType';
 
 export type UserType = {
-    _id: string;
+    id: string;
     email: string;
     password: string;
     roles: RoleType[]
@@ -9,6 +10,8 @@ export type UserType = {
 
 export interface User {
     findById(id: string): Promise<UserType | undefined>;
+
     findByEmail(email: string): Promise<UserType | undefined>;
-    create(user: UserType): Promise<void>
+
+    save(user: Optional<UserType, 'id'>): Promise<UserType>;
 }

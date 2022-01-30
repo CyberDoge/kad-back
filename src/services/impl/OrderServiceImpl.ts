@@ -1,30 +1,25 @@
 import {ValidationError} from 'apollo-server-errors';
-import {isMatch, parse} from 'date-fns';
-import {MAX_SAFE_DATE} from 'src/consts';
-import {OrderContext} from 'src/context/OrderContext';
-import {Order, OrderType} from 'src/models/interfaces/Order';
-import {OrderFilter} from 'src/types/request/OrderFilter';
+import {parse} from 'date-fns';
+import {DATE_FORMAT, MAX_SAFE_DATE} from 'src/consts';
+import {AuthContext, OrderContext} from 'src/context/interfaces';
+import {Auth, Order, OrderType} from 'src/models/interfaces';
+import {Order as OrderRequest, OrderFilter} from 'src/types/request';
+import {validateOrderFilter} from 'src/validators/orderValidator';
 import {OrderService} from '../interfaces';
 
-const MAX_ORDERS_ARRAY_LENGTH = 100;
-const DATE_FORMAT = 'dd-MM-yyyy';
 
 export class OrderServiceImpl implements OrderService {
     private order: Order;
+    private auth: Auth;
 
-    constructor(context: OrderContext) {
+    constructor(context: OrderContext & AuthContext) {
         this.order = context.order;
+        this.auth = context.auth;
     }
 
     async getOrdersByFilter(filter: OrderFilter): Promise<OrderType[] | ValidationError> {
-        if (filter.count && filter.count > MAX_ORDERS_ARRAY_LENGTH) {
-            return [];
-        }
 
-        if (
-            filter.dateTo && !isMatch(filter.dateTo, DATE_FORMAT)
-            || filter.dateFrom && !isMatch(filter.dateFrom, DATE_FORMAT)
-        ) {
+        if (validateOrderFilter(filter)) {
             return new ValidationError('dates are not in valid format');
         }
 
@@ -40,5 +35,18 @@ export class OrderServiceImpl implements OrderService {
         };
 
         return this.order.find(filledFilter);
+    }
+
+    async saveOrder(order: Required<OrderRequest>): Promise<OrderType | ValidationError> {
+
+        const dbOrder = {
+            title: order.title,
+            description: order.description,
+            price: order.price,
+            date: order.date,
+            customer: 'asd',
+        };
+
+        return this.order.save(dbOrder);
     }
 }

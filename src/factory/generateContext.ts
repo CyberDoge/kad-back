@@ -1,4 +1,4 @@
-import {Context} from 'src/context/Context';
+import {Context} from 'src/context/impl/Context';
 
 export function generateContext() {
     return new Context();

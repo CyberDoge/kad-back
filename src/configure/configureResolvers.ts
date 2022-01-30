@@ -1,4 +1,4 @@
-import {Context} from 'src/context/Context';
+import {Context} from 'src/context/impl/Context';
 import {login, registration} from 'src/resolvers/mutations';
 import {order} from 'src/resolvers/queries';
 import {LoginServiceImpl} from 'src/services/impl/LoginServiceImpl';

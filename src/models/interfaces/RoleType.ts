@@ -1,6 +1,6 @@
 export type RoleType = {
-    _id: string;
-    roleName: 'anon' | 'commonUser' | 'admin'
+    id?: string;
+    roleName: 'anon' | 'commonUser' | 'admin' | 'customer' | 'executor'
 }
 
 export interface Role {

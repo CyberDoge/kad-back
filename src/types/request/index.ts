@@ -1,4 +1,5 @@
-import {LoginCredentials} from './LoginCredentials';
-import {RegisterCredentials} from './RegisterCredentials';
+export * from './LoginCredentials';
+export * from './RegisterCredentials';
+export * from './OrderFilter';
+export * from './Order';
 
-export {RegisterCredentials, LoginCredentials};

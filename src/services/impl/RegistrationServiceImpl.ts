@@ -1,5 +1,5 @@
 import {ValidationError} from 'apollo-server-errors';
-import {ModelContext} from 'src/context/ModelContext';
+import {ModelContext} from 'src/context/interfaces/ModelContext';
 
 import {Auth, Role, User} from 'src/models/interfaces';
 import {RegisterCredentials} from 'src/types/request';
@@ -23,19 +23,18 @@ export class RegistrationServiceImpl implements RegistrationService {
             return new ValidationError('user with suck email is already exist');
         }
         const newUser = {
-            _id: `user${Math.random()}`,
             email: credentials.email,
             password: credentials.password,
             roles: [(await this.role.getByRoleName('commonUser'))]
         };
 
-        this.user.create(newUser);
+        const user = await this.user.save(newUser);
         const token = provideAuthToken();
-        this.auth.setUserIdByAuthorization(token, newUser._id);
+        this.auth.setUserIdByAuthorization(token, user.id);
 
         return {
             token,
-            userId: newUser._id
+            user
         };
     }
 

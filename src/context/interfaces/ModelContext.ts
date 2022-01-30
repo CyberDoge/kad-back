@@ -1,4 +1,4 @@
-import {Auth, Role, User} from '../models/interfaces';
+import {Auth, Role, User} from 'src/models/interfaces';
 
 export interface ModelContext {
     readonly auth: Auth;

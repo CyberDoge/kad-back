@@ -1,23 +1,26 @@
 import {User, UserType} from '../interfaces';
 
 export class InMemoryUser implements User {
-    private userMap: UserType[];
+    private users: UserType[];
 
 
     constructor() {
-        this.userMap = [];
+        this.users = [];
     }
 
-    async create(user: UserType) {
-        this.userMap.push(user);
+    async save(user: UserType) {
+        user.id = `${this.users.length}`;
+        this.users.push(user);
+
+        return user;
 
     }
 
     async findById(id: string): Promise<UserType | undefined> {
-        return this.userMap.find(user => user._id === id);
+        return this.users.find(user => user.id === id);
     }
 
     async findByEmail(email: string): Promise<UserType | undefined> {
-        return this.userMap.find(user => user.email === email);
+        return this.users.find(user => user.email === email);
     }
 }

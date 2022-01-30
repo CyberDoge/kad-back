@@ -1,14 +1,14 @@
-import {ApolloServer} from 'apollo-server-express';
+import {IExecutableSchemaDefinition} from '@graphql-tools/schema';
 import {ApolloServerPluginDrainHttpServer} from 'apollo-server-core';
+import {ApolloServer} from 'apollo-server-express';
+import dotenv from 'dotenv';
 import express from 'express';
 import session from 'express-session';
 import http from 'http';
-import dotenv from 'dotenv';
 import morgan from 'morgan';
-import {IExecutableSchemaDefinition} from '@graphql-tools/schema';
-import {typeDefs} from './typeDefs';
-import {generateContext} from './factory/generateContext';
 import {configureResolvers} from './configure/configureResolvers';
+import {generateContext} from './factory/generateContext';
+import {typeDefs} from './typeDefs';
 
 const config = dotenv.config();
 

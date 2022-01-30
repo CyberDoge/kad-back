@@ -1,5 +1,5 @@
 import {AuthenticationError} from 'apollo-server-express';
-import {ModelContext} from 'src/context/ModelContext';
+import {ModelContext} from 'src/context/interfaces/ModelContext';
 import {Auth, User} from 'src/models/interfaces';
 import {LoginCredentials} from 'src/types/request';
 import {LoginResponse} from 'src/types/responses';
@@ -30,9 +30,9 @@ export class LoginServiceImpl implements LoginService {
             return new AuthenticationError('invalid credentials');
         }
         const token = provideAuthToken();
-        this.auth.setUserIdByAuthorization(token, user._id);
+        this.auth.setUserIdByAuthorization(token, user.id);
 
-        return {token, userId: user._id};
+        return {token, user};
     }
 
 }
