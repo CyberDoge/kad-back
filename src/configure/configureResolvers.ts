@@ -1,15 +1,13 @@
-import {Context} from 'src/context/impl/Context';
+import {container} from 'src/iocContainer';
+import {TYPES} from 'src/iocTypes';
 import {login, registration} from 'src/resolvers/mutations';
 import {order} from 'src/resolvers/queries';
-import {LoginServiceImpl} from 'src/services/impl/LoginServiceImpl';
-import {OrderServiceImpl} from 'src/services/impl/OrderServiceImpl';
-import {RegistrationServiceImpl} from 'src/services/impl/RegistrationServiceImpl';
+import {LoginService, OrderService, RegistrationService} from 'src/services/interfaces';
 
 export const configureResolvers = () => {
-    const context = new Context();
-    const loginService = new LoginServiceImpl(context);
-    const registrationService = new RegistrationServiceImpl(context);
-    const orderService = new OrderServiceImpl(context);
+    const loginService = container.get<LoginService>(TYPES.LoginService);
+    const registrationService = container.get<RegistrationService>(TYPES.RegistrationService);
+    const orderService = container.get<OrderService>(TYPES.OrderService);
 
     return {
         Mutation: {

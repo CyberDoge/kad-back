@@ -1,5 +1,7 @@
+import {injectable} from 'inversify';
 import {Role, RoleType} from '../interfaces';
 
+@injectable()
 export class InMemoryRole implements Role {
     private roles: RoleType[];
 

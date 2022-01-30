@@ -1,5 +1,7 @@
+import {injectable} from 'inversify';
 import {User, UserType} from '../interfaces';
 
+@injectable()
 export class InMemoryUser implements User {
     private users: UserType[];
 

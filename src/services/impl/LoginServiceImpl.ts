@@ -1,18 +1,20 @@
 import {AuthenticationError} from 'apollo-server-express';
-import {ModelContext} from 'src/context/interfaces/ModelContext';
+import {inject, injectable} from 'inversify';
+import {TYPES} from 'src/iocTypes';
 import {Auth, User} from 'src/models/interfaces';
 import {LoginCredentials} from 'src/types/request';
 import {LoginResponse} from 'src/types/responses';
 import {provideAuthToken} from 'src/utils/authTokenProvider';
 import {LoginService} from '../interfaces';
 
+@injectable()
 export class LoginServiceImpl implements LoginService {
     private auth: Auth;
     private user: User;
 
-    constructor(context: ModelContext) {
-        this.auth = context.auth;
-        this.user = context.user;
+    constructor(@inject(TYPES.Auth) auth: Auth, @inject(TYPES.User) user: User) {
+        this.auth = auth;
+        this.user = user;
     }
 
     async validateCredentialsInput(loginCredentials: LoginCredentials): Promise<boolean> {

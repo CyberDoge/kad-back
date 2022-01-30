@@ -1,5 +1,6 @@
 import {ValidationError} from 'apollo-server-errors';
-import {ModelContext} from 'src/context/interfaces/ModelContext';
+import {inject, injectable} from 'inversify';
+import {TYPES} from 'src/iocTypes';
 
 import {Auth, Role, User} from 'src/models/interfaces';
 import {RegisterCredentials} from 'src/types/request';
@@ -7,15 +8,20 @@ import {LoginResponse} from 'src/types/responses';
 import {provideAuthToken} from 'src/utils/authTokenProvider';
 import {RegistrationService} from '../interfaces';
 
+@injectable()
 export class RegistrationServiceImpl implements RegistrationService {
     private auth: Auth;
     private user: User;
     private role: Role;
 
-    constructor(context: ModelContext) {
-        this.auth = context.auth;
-        this.user = context.user;
-        this.role = context.role;
+    constructor(
+        @inject(TYPES.Auth) auth: Auth,
+        @inject(TYPES.User) user: User,
+        @inject(TYPES.Role) role: Role,
+    ) {
+        this.auth = auth;
+        this.user = user;
+        this.role = role;
     }
 
     async registration(credentials: RegisterCredentials): Promise<LoginResponse | ValidationError> {

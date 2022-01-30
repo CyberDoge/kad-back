@@ -7,7 +7,6 @@ import session from 'express-session';
 import http from 'http';
 import morgan from 'morgan';
 import {configureResolvers} from './configure/configureResolvers';
-import {generateContext} from './factory/generateContext';
 import {typeDefs} from './typeDefs';
 
 const config = dotenv.config();
@@ -31,7 +30,7 @@ async function startApolloServer(
         typeDefs,
         resolvers,
         plugins: [ApolloServerPluginDrainHttpServer({httpServer})],
-        context: generateContext()
+        context: (cntx) => cntx
     });
     await server.start();
     server.applyMiddleware({app});

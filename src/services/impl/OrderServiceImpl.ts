@@ -1,20 +1,21 @@
 import {ValidationError} from 'apollo-server-errors';
 import {parse} from 'date-fns';
+import {inject, injectable} from 'inversify';
 import {DATE_FORMAT, MAX_SAFE_DATE} from 'src/consts';
-import {AuthContext, OrderContext} from 'src/context/interfaces';
+import {TYPES} from 'src/iocTypes';
 import {Auth, Order, OrderType} from 'src/models/interfaces';
 import {Order as OrderRequest, OrderFilter} from 'src/types/request';
 import {validateOrderFilter} from 'src/validators/orderValidator';
 import {OrderService} from '../interfaces';
 
-
+@injectable()
 export class OrderServiceImpl implements OrderService {
     private order: Order;
     private auth: Auth;
 
-    constructor(context: OrderContext & AuthContext) {
-        this.order = context.order;
-        this.auth = context.auth;
+    constructor(@inject(TYPES.Order) order: Order, @inject(TYPES.Auth) auth: Auth) {
+        this.order = order;
+        this.auth = auth;
     }
 
     async getOrdersByFilter(filter: OrderFilter): Promise<OrderType[] | ValidationError> {

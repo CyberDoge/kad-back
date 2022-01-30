@@ -9,6 +9,11 @@
     "moduleResolution": "node",
     "strictPropertyInitialization": true,
     "strictFunctionTypes": true,
+    "experimentalDecorators": true,
+    "types": [
+      "reflect-metadata"
+    ],
+    "emitDecoratorMetadata": true,
     "baseUrl": ".",
     "paths": {
       "src": [

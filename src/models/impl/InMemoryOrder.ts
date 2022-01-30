@@ -1,6 +1,8 @@
+import {injectable} from 'inversify';
 import {Optional} from 'src/utils/typeUtils';
 import {Order, OrderFilterType, OrderType} from '../interfaces';
 
+@injectable()
 export class InMemoryOrder implements Order {
     private orders: OrderType[];
 
