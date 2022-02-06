@@ -1,7 +1,7 @@
 import {container} from 'src/iocContainer';
 import {TYPES} from 'src/iocTypes';
-import {login, registration} from 'src/resolvers/mutations';
-import {order} from 'src/resolvers/queries';
+import {login, order as orderMutations, registration} from 'src/resolvers/mutations';
+import {order as orderQueries} from 'src/resolvers/queries';
 import {LoginService, OrderService, RegistrationService} from 'src/services/interfaces';
 
 export const configureResolvers = () => {
@@ -12,10 +12,11 @@ export const configureResolvers = () => {
     return {
         Mutation: {
             login: login(loginService),
-            registration: registration(registrationService)
+            registration: registration(registrationService),
+            ...orderMutations(orderService)
         },
         Query: {
-            ...order(orderService)
+            ...orderQueries(orderService)
         }
     };
 };

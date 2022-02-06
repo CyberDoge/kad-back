@@ -10,6 +10,12 @@ export const Order = gql`
         date: String,
     }
 
+    input OrderRequest {
+        title: String!,
+        description: String!,
+        price: Float!,
+    }
+
     input OrderFilter {
         start: Int = 0,
         count: Int = ${COMMON_ORDERS_ARRAY_LENGTH},
@@ -22,5 +28,8 @@ export const Order = gql`
     }
     type Query {
         orders(filter: OrderFilter): [Order]
+    }
+    extend type Mutation {
+        createOrder(order: OrderRequest!): Order
     }
 `;

@@ -1,4 +1,4 @@
-import {login} from './login';
-import {registration} from './registration';
+export * from './login';
+export * from './registration';
+export * from './order';
 
-export {login, registration};

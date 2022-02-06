@@ -1,13 +1,14 @@
 import {ValidationError} from 'apollo-server-errors';
-import {parse} from 'date-fns';
 import {inject, injectable} from 'inversify';
-import {DATE_FORMAT, MAX_SAFE_DATE} from 'src/consts';
+import {formatOrderFilterRequestToModel, formatOrderModelToResponse} from 'src/formatters';
 import {TYPES} from 'src/iocTypes';
 import {Order} from 'src/models/interfaces';
-import {OrderDto as OrderDto} from 'src/types/dto';
-import {OrderFilter} from 'src/types/request';
+import {ContextUser} from 'src/types/ContextUser';
+import {CreateOrderRequest, OrderFilter} from 'src/types/request';
+import {OrderResponse} from 'src/types/response';
 import {validateOrderFilter} from 'src/validators/orderValidator';
 import {OrderService} from '../interfaces';
+
 
 @injectable()
 export class OrderServiceImpl implements OrderService {
@@ -17,36 +18,18 @@ export class OrderServiceImpl implements OrderService {
         this.order = order;
     }
 
-    async getOrdersByFilter(filter: OrderFilter): Promise<OrderDto[] | ValidationError> {
+    async getOrdersByFilter(filter?: OrderFilter): Promise<OrderResponse[] | ValidationError> {
 
-        if (validateOrderFilter(filter)) {
-            return new ValidationError('dates are not in valid format');
+        if (!validateOrderFilter(filter)) {
+            return new ValidationError('Invalid filter data');
         }
 
-        const filledFilter = {
-            start: filter.start,
-            count: filter.count,
-            title: filter.title,
-            description: filter.description,
-            priceFrom: filter.priceFrom,
-            priceTo: filter.priceTo,
-            dateFrom: filter.dateFrom ? parse(filter.dateFrom, DATE_FORMAT, 0) : undefined,
-            dateTo: filter.dateTo ? parse(filter.dateTo, DATE_FORMAT, MAX_SAFE_DATE) : undefined,
-        };
-
-        return this.order.find(filledFilter);
+        return this.order.find(formatOrderFilterRequestToModel(filter));
     }
 
-    async saveOrder(order: Required<OrderDto>): Promise<OrderDto | ValidationError> {
+    async createOrder(order: Required<CreateOrderRequest>, user: ContextUser):
+        Promise<OrderResponse | ValidationError> {
 
-        const dbOrder = {
-            title: order.title,
-            description: order.description,
-            price: order.price,
-            date: order.date,
-            customer: 'asd',
-        };
-
-        return this.order.save(dbOrder);
+        return formatOrderModelToResponse(await this.order.save({...order, date: new Date(), customer: user.id}));
     }
 }

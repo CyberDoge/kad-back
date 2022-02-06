@@ -12,9 +12,11 @@ export const isAuthenticated = rule()(async (_1, _2, ctx: Context) => {
 
 export const permissions = shield({
     Query: {
-        '*': isAuthenticated
+        '*': allow
     },
     Mutation: {
-        '*': allow
+        login: allow,
+        registration: allow,
+        createOrder: isAdmin
     },
 });
