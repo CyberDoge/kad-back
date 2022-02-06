@@ -1,5 +1,5 @@
-import {COMMON_ORDERS_ARRAY_LENGTH} from 'src/consts';
 import {gql} from 'apollo-server-express';
+import {COMMON_ORDERS_ARRAY_LENGTH} from 'src/consts';
 
 
 export const Order = gql`
@@ -21,6 +21,6 @@ export const Order = gql`
         dateTo: String,
     }
     type Query {
-        orders(filter: OrderFilter!): [Order]
+        orders(filter: OrderFilter): [Order]
     }
 `;

@@ -7,7 +7,12 @@ export class InMemoryUser implements User {
 
 
     constructor() {
-        this.users = [];
+        this.users = [{
+            id: '1',
+            email: 'test@mail.com',
+            roles: [{roleName: 'ADMIN', id: '1'}],
+            password: '123123'
+        }];
     }
 
     async save(user: UserType) {

@@ -1,5 +1,5 @@
 import {Optional} from 'src/utils/typeUtils';
-import {RoleType} from './RoleType';
+import {RoleType} from './Role';
 
 export type UserType = {
     id: string;

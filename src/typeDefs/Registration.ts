@@ -10,6 +10,6 @@ export const Registration = gql`
     }
 
     extend type Mutation {
-        registration(credentials: RegistrationCredentials!): Login
+        registration(credentials: RegistrationCredentials!): String!
     }
 `;

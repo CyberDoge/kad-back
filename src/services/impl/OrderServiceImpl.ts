@@ -3,22 +3,21 @@ import {parse} from 'date-fns';
 import {inject, injectable} from 'inversify';
 import {DATE_FORMAT, MAX_SAFE_DATE} from 'src/consts';
 import {TYPES} from 'src/iocTypes';
-import {Auth, Order, OrderType} from 'src/models/interfaces';
-import {Order as OrderRequest, OrderFilter} from 'src/types/request';
+import {Order} from 'src/models/interfaces';
+import {OrderDto as OrderDto} from 'src/types/dto';
+import {OrderFilter} from 'src/types/request';
 import {validateOrderFilter} from 'src/validators/orderValidator';
 import {OrderService} from '../interfaces';
 
 @injectable()
 export class OrderServiceImpl implements OrderService {
     private order: Order;
-    private auth: Auth;
 
-    constructor(@inject(TYPES.Order) order: Order, @inject(TYPES.Auth) auth: Auth) {
+    constructor(@inject(TYPES.Order) order: Order) {
         this.order = order;
-        this.auth = auth;
     }
 
-    async getOrdersByFilter(filter: OrderFilter): Promise<OrderType[] | ValidationError> {
+    async getOrdersByFilter(filter: OrderFilter): Promise<OrderDto[] | ValidationError> {
 
         if (validateOrderFilter(filter)) {
             return new ValidationError('dates are not in valid format');
@@ -38,7 +37,7 @@ export class OrderServiceImpl implements OrderService {
         return this.order.find(filledFilter);
     }
 
-    async saveOrder(order: Required<OrderRequest>): Promise<OrderType | ValidationError> {
+    async saveOrder(order: Required<OrderDto>): Promise<OrderDto | ValidationError> {
 
         const dbOrder = {
             title: order.title,

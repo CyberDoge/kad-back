@@ -1,41 +1,44 @@
-import {IExecutableSchemaDefinition} from '@graphql-tools/schema';
+import {IExecutableSchemaDefinition, makeExecutableSchema} from '@graphql-tools/schema';
 import {ApolloServerPluginDrainHttpServer} from 'apollo-server-core';
 import {ApolloServer} from 'apollo-server-express';
-import dotenv from 'dotenv';
 import express from 'express';
-import session from 'express-session';
+import {applyMiddleware} from 'graphql-middleware';
 import http from 'http';
 import morgan from 'morgan';
+import {parsedConf} from 'src/configure';
+import {permissions} from 'src/configure/permissions';
+import {jwtMiddleWare} from 'src/helpers/jwtHelper';
 import {configureResolvers} from './configure/configureResolvers';
 import {typeDefs} from './typeDefs';
 
-const config = dotenv.config();
 
 async function startApolloServer(
     typeDefs: IExecutableSchemaDefinition['typeDefs'],
     resolvers: IExecutableSchemaDefinition['resolvers']
 ) {
-    if (!config.parsed) {
-        throw new Error('.env parsing error');
-    }
+
     const app = express();
-    app.use(morgan(config.parsed.LOG_FORMAT, {stream: {write: console.log}}));
-    app.use(session({
-        secret: config.parsed.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false
-    }));
+
+    app.use(jwtMiddleWare);
+    app.use(morgan(parsedConf.LOG_FORMAT, {stream: {write: console.log}}));
+
     const httpServer = http.createServer(app);
+
+    const schema = makeExecutableSchema({typeDefs, resolvers});
+
     const server = new ApolloServer({
-        typeDefs,
-        resolvers,
+
+        schema: applyMiddleware(
+            schema,
+            permissions
+        ),
         plugins: [ApolloServerPluginDrainHttpServer({httpServer})],
-        context: (cntx) => cntx
+        context: ({req}) => ({...req})
     });
     await server.start();
     server.applyMiddleware({app});
-    await httpServer.listen({port: config.parsed.APP_PORT});
-    console.log(`Server ready at localhost${config.parsed.APP_PORT}${server.graphqlPath}`);
+    await httpServer.listen({port: parsedConf.APP_PORT});
+    console.log(`Server ready at localhost${parsedConf.APP_PORT}${server.graphqlPath}`);
 }
 
 const resolvers = configureResolvers();

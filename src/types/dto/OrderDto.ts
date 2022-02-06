@@ -1,4 +1,4 @@
-export type Order = {
+export type OrderDto = {
     title?: string,
     description?: string,
     price?: number,

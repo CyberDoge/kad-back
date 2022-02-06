@@ -9,23 +9,23 @@ export class InMemoryRole implements Role {
         this.roles = [
             {
                 id: `role${1}`,
-                roleName: 'admin',
+                roleName: 'ADMIN',
             },
             {
                 id: `role${2}`,
-                roleName: 'commonUser',
+                roleName: 'COMMON_USER',
             },
             {
                 id: `role${3}`,
-                roleName: 'anon',
+                roleName: 'ANON',
             },
             {
                 id: `role${4}`,
-                roleName: 'customer',
+                roleName: 'CUSTOMER',
             },
             {
                 id: `role${5}`,
-                roleName: 'executor',
+                roleName: 'EXECUTOR',
             }
         ];
     }
