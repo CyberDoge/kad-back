@@ -10,7 +10,7 @@ export const formatOrderModelToResponse = (order: OrderType): OrderResponse => {
         date: order.date,
         title: order.title,
         description: order.description,
-        price: order.price
+        price: order.price,
     };
 };
 

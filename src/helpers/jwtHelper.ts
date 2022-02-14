@@ -6,7 +6,7 @@ import {ContextUser} from 'src/types/ContextUser';
 export const codeUser = (user: ContextUser): string => {
     return jwt.sign(user,
         parsedConf.JWT_SECRET,
-        {algorithm: 'HS256', expiresIn: '1d'}
+        {algorithm: 'HS256', expiresIn: '1y'}
     );
 };
 

@@ -1,11 +1,9 @@
 import {ValidationError} from 'apollo-server-errors';
 import {inject, injectable} from 'inversify';
-import {formatOrderFilterRequestToModel, formatOrderModelToResponse} from 'src/formatters';
+import {formatOrderFilterRequestToModel} from 'src/formatters';
 import {TYPES} from 'src/iocTypes';
-import {Order} from 'src/models/interfaces';
-import {ContextUser} from 'src/types/ContextUser';
+import {Order, OrderType} from 'src/models/interfaces';
 import {CreateOrderRequest, OrderFilter} from 'src/types/request';
-import {OrderResponse} from 'src/types/response';
 import {validateOrderFilter} from 'src/validators/orderValidator';
 import {OrderService} from '../interfaces';
 
@@ -18,18 +16,21 @@ export class OrderServiceImpl implements OrderService {
         this.order = order;
     }
 
-    async getOrdersByFilter(filter?: OrderFilter): Promise<OrderResponse[] | ValidationError> {
-
-        if (!validateOrderFilter(filter)) {
-            return new ValidationError('Invalid filter data');
-        }
-
-        return this.order.find(formatOrderFilterRequestToModel(filter));
+    async getOrderById(orderId: OrderType['id']): Promise<OrderType | undefined> {
+        return this.order.find({id: orderId});
     }
 
-    async createOrder(order: Required<CreateOrderRequest>, user: ContextUser):
-        Promise<OrderResponse | ValidationError> {
+    async getOrdersByFilter(filter?: OrderFilter): Promise<OrderType[]> {
 
-        return formatOrderModelToResponse(await this.order.save({...order, date: new Date(), customer: user.id}));
+        if (!validateOrderFilter(filter)) {
+            throw new ValidationError('Invalid filter data');
+        }
+
+        return this.order.findByFilter(formatOrderFilterRequestToModel(filter));
+    }
+
+    async createOrder(order: CreateOrderRequest): Promise<OrderType> {
+
+        return await this.order.save({...order, date: new Date()});
     }
 }

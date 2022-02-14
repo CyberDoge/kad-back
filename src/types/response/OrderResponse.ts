@@ -3,5 +3,5 @@ export type OrderResponse = {
     title: string,
     description: string,
     price: number,
-    date: Date
+    date: Date,
 }

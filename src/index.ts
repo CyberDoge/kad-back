@@ -19,8 +19,8 @@ async function startApolloServer(
 
     const app = express();
 
-    app.use(jwtMiddleWare);
     app.use(morgan(parsedConf.LOG_FORMAT, {stream: {write: console.log}}));
+    app.use(jwtMiddleWare);
 
     const httpServer = http.createServer(app);
 
@@ -33,7 +33,9 @@ async function startApolloServer(
             permissions
         ),
         plugins: [ApolloServerPluginDrainHttpServer({httpServer})],
-        context: ({req}) => ({...req})
+        context: ({req}) => {
+            return {...req};
+        }
     });
     await server.start();
     server.applyMiddleware({app});

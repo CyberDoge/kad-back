@@ -4,6 +4,7 @@ import {COMMON_ORDERS_ARRAY_LENGTH} from 'src/consts';
 
 export const Order = gql`
     type Order {
+        id: String,
         title: String,
         description: String,
         price: Float,

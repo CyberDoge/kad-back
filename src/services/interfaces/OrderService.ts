@@ -1,11 +1,11 @@
-import {ValidationError} from 'apollo-server-errors';
-import {ContextUser} from 'src/types/ContextUser';
+import {OrderType} from 'src/models/interfaces';
 import {CreateOrderRequest} from 'src/types/request';
 import {OrderFilter} from 'src/types/request/OrderFilter';
-import {OrderResponse} from 'src/types/response';
 
 export interface OrderService {
-    getOrdersByFilter(filter?: OrderFilter): Promise<OrderResponse[] | ValidationError>;
+    getOrderById(orderId: OrderType['id']): Promise<OrderType | undefined>;
 
-    createOrder(order: CreateOrderRequest, user: ContextUser): Promise<OrderResponse | ValidationError>;
+    getOrdersByFilter(filter?: OrderFilter): Promise<OrderType[]>;
+
+    createOrder(order: CreateOrderRequest): Promise<OrderType>;
 }

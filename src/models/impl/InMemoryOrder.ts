@@ -8,16 +8,6 @@ export class InMemoryOrder implements Order {
 
     constructor() {
         this.orders = [];
-        for (let i = 1; i <= 5; i++) {
-            this.orders.push({
-                id: `${i}`,
-                date: new Date(i * 60000000000),
-                description: `description of #${i}`,
-                price: i * 100000,
-                title: `title of #${i}`,
-                customer: `customer${i}`
-            });
-        }
     }
 
     async save(order: Optional<OrderType, 'id'>): Promise<OrderType> {
@@ -27,7 +17,7 @@ export class InMemoryOrder implements Order {
         return dbOrder;
     }
 
-    async find(filter: OrderFilterType)
+    async findByFilter(filter: OrderFilterType)
         : Promise<OrderType[]> {
         const {start, count, ...restFilter} = filter;
 
@@ -39,6 +29,13 @@ export class InMemoryOrder implements Order {
             && (restFilter.dateTo ? order.date < restFilter.dateTo : true)
         ).slice(start, start + count);
 
+    }
+
+    async find(order: Partial<OrderType>): Promise<OrderType | undefined> {
+        return this.orders.find(o => (!order.id || order.id === o.id)
+            && (!order.title || order.title === o.title)
+            && (!order.description || order.description === o.description)
+            && (!order.price || order.price === o.price));
     }
 
 }
