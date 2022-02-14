@@ -1,7 +1,7 @@
 import {ValidationError} from 'apollo-server-errors';
 import {inject, injectable} from 'inversify';
 import {codeUser} from 'src/helpers/jwtHelper';
-import {TYPES} from 'src/iocTypes';
+import {TYPES} from 'src/ioc';
 
 import {Role, User} from 'src/models/interfaces';
 import {RegisterCredentials} from 'src/types/request';
@@ -31,7 +31,7 @@ export class RegistrationServiceImpl implements RegistrationService {
         };
 
         const user = await this.user.save(newUser);
-    
+
         return codeUser({
             id: user.id,
             roles: user.roles.map(r => r.roleName)

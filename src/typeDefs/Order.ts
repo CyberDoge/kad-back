@@ -32,5 +32,6 @@ export const Order = gql`
     }
     extend type Mutation {
         createOrder(order: OrderRequest!): Order
+        enrollToOrder(orderId: String!): Boolean
     }
 `;

@@ -1,5 +1,5 @@
 import {inject, injectable} from 'inversify';
-import {TYPES} from 'src/iocTypes';
+import {TYPES} from 'src/ioc';
 import {NewlyContract, NewlyContractType, OrderType, UserType} from 'src/models/interfaces';
 import {NewlyContractService} from '../interfaces';
 

@@ -14,4 +14,12 @@ export const order = (orderInteractor: OrderInteractor) =>
             return await orderInteractor.createNewOrder(order, user.id);
 
         },
+        enrollToOrder: async (_, {orderId}: { orderId: string }, {user}: Context) => {
+            if (!user) {
+                throw new AuthenticationError('not authenticated');
+            }
+
+            return await orderInteractor.enrollToOrder(orderId, user.id);
+
+        },
     });

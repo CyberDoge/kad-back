@@ -1,5 +1,4 @@
-import {container} from 'src/iocContainer';
-import {TYPES} from 'src/iocTypes';
+import {container, TYPES} from 'src/ioc';
 import {login, order as orderMutations, registration} from 'src/resolvers/mutations';
 import {order as orderQueries} from 'src/resolvers/queries';
 import {LoginService, OrderService, RegistrationService} from 'src/services/interfaces';

@@ -1,7 +1,7 @@
 import {ValidationError} from 'apollo-server-errors';
 import {inject, injectable} from 'inversify';
 import {formatOrderFilterRequestToModel} from 'src/formatters';
-import {TYPES} from 'src/iocTypes';
+import {TYPES} from 'src/ioc';
 import {Order, OrderType} from 'src/models/interfaces';
 import {CreateOrderRequest, OrderFilter} from 'src/types/request';
 import {validateOrderFilter} from 'src/validators/orderValidator';
