@@ -8,6 +8,16 @@ export class InMemoryOrder implements Order {
 
     constructor() {
         this.orders = [];
+
+        for (let i = 0; i < 30; i++) {
+            this.orders.push({
+                id: `id${i}`,
+                title: `title${i}`,
+                description: `description${i}`,
+                date: new Date(),
+                price: (i + 10) * 100
+            });
+        }
     }
 
     async save(order: Optional<OrderType, 'id'>): Promise<OrderType> {
@@ -22,11 +32,13 @@ export class InMemoryOrder implements Order {
         const {start, count, ...restFilter} = filter;
 
         return this.orders.filter((order) =>
-            (restFilter.title ? order.title.includes(restFilter.title) : true)
-            && (restFilter.priceFrom ? order.price > (restFilter.priceFrom) : true)
-            && (restFilter.priceTo ? order.price < (restFilter.priceTo) : true)
-            && (restFilter.dateFrom ? order.date > restFilter.dateFrom : true)
-            && (restFilter.dateTo ? order.date < restFilter.dateTo : true)
+            (!restFilter.title || order.title.toLocaleLowerCase().includes(restFilter.title.toLocaleLowerCase()))
+            && (!restFilter.description ||
+                order.description.toLocaleLowerCase().includes(restFilter.description.toLocaleLowerCase()))
+            && (!restFilter.priceFrom || order.price > (restFilter.priceFrom))
+            && (!restFilter.priceTo || order.price < (restFilter.priceTo))
+            && (!restFilter.dateFrom || order.date > restFilter.dateFrom)
+            && (!restFilter.dateTo || order.date < restFilter.dateTo)
         ).slice(start, start + count);
 
     }

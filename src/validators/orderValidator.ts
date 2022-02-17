@@ -1,17 +1,17 @@
-import {isMatch} from 'date-fns';
+import {isValid} from 'date-fns';
 import {OrderFilter} from 'src/types/request';
-import {DATE_FORMAT, MAX_ORDERS_ARRAY_LENGTH} from '../consts';
+import {MAX_ORDERS_ARRAY_LENGTH} from '../consts';
 
 export const validateOrderFilter = (filter?: OrderFilter): boolean => {
     if (!filter) {
         return true;
     }
 
-    return !(
-        (filter.count && filter.count > MAX_ORDERS_ARRAY_LENGTH)
-        || (
-            filter.dateTo && !isMatch(filter.dateTo, DATE_FORMAT)
-            || filter.dateFrom && !isMatch(filter.dateFrom, DATE_FORMAT)
+    return (
+        (!filter.count || filter.count < MAX_ORDERS_ARRAY_LENGTH)
+        && (
+            !filter.dateTo || isValid(filter.dateTo)
+            && !filter.dateFrom || isValid(filter.dateFrom)
         )
     );
 };

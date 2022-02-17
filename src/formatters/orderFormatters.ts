@@ -1,5 +1,4 @@
-import {parse} from 'date-fns';
-import {COMMON_ORDERS_ARRAY_LENGTH, DATE_FORMAT, MAX_SAFE_DATE} from 'src/consts';
+import {COMMON_ORDERS_ARRAY_LENGTH} from 'src/consts';
 import {OrderFilterType, OrderType} from 'src/models/interfaces';
 import {OrderFilter} from 'src/types/request';
 import {OrderResponse} from 'src/types/response';
@@ -35,8 +34,8 @@ export const formatOrderFilterRequestToModel = (filter?: OrderFilter): OrderFilt
         description: filter.description,
         priceFrom: filter.priceFrom,
         priceTo: filter.priceTo,
-        dateFrom: filter.dateFrom ? parse(filter.dateFrom, DATE_FORMAT, 0) : undefined,
-        dateTo: filter.dateTo ? parse(filter.dateTo, DATE_FORMAT, MAX_SAFE_DATE) : undefined,
+        dateFrom: filter.dateFrom ? new Date(filter.dateFrom) : undefined,
+        dateTo: filter.dateTo ? new Date(filter.dateTo) : undefined,
     };
 
 

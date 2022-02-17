@@ -9,7 +9,7 @@ import {parsedConf} from 'src/configure';
 import {permissions} from 'src/configure/permissions';
 import {jwtMiddleWare} from 'src/helpers/jwtHelper';
 import {configureResolvers} from './configure/configureResolvers';
-import {typeDefs} from './typeDefs';
+import {typeDefs} from './graphql/typeDefs';
 
 
 async function startApolloServer(

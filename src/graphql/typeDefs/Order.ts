@@ -8,7 +8,7 @@ export const Order = gql`
         title: String,
         description: String,
         price: Float,
-        date: String,
+        date: Float,
     }
 
     input OrderRequest {
@@ -24,11 +24,12 @@ export const Order = gql`
         description: String,
         priceFrom: Float,
         priceTo: Float,
-        dateFrom: String,
-        dateTo: String,
+        dateFrom: Float,
+        dateTo: Float,
     }
     type Query {
         orders(filter: OrderFilter): [Order]
+        order(orderId: String): Order
     }
     extend type Mutation {
         createOrder(order: OrderRequest!): Order

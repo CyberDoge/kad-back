@@ -5,6 +5,6 @@ export interface OrderFilter {
     description?: string,
     priceFrom?: number,
     priceTo?: number,
-    dateFrom?: string,
-    dateTo?: string,
+    dateFrom?: number,
+    dateTo?: number,
 }
