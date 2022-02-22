@@ -3,7 +3,7 @@ import {v4 as uuid} from 'uuid';
 import {UserDetail, UserDetailType, UserType} from '../interfaces';
 import {readFromFile, writeToFile} from './dbHelpers';
 
-const DB_FILE_NAME = 'userDetailData';
+const DB_FILE_NAME = 'userDetailData.json';
 
 @injectable()
 export class InFileUserDetailData implements UserDetail {
@@ -11,7 +11,12 @@ export class InFileUserDetailData implements UserDetail {
 
     constructor() {
         this.userDetailData = [];
-        readFromFile(DB_FILE_NAME).then(data => this.userDetailData = JSON.parse(data) as UserDetailType[]);
+        readFromFile(DB_FILE_NAME).then(res => {
+            this.userDetailData = res as UserDetailType[];
+        }).catch(() => {
+            this.userDetailData = [];
+            writeToFile(DB_FILE_NAME, JSON.stringify(this.userDetailData));
+        });
     }
 
     async create(userDetail: Omit<UserDetailType, 'id'>): Promise<UserDetailType> {

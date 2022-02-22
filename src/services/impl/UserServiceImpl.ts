@@ -1,8 +1,8 @@
 import {ValidationError} from 'apollo-server-errors';
 import {inject, injectable} from 'inversify';
-import {isNil, omitBy} from 'lodash';
+import {isNil, omitBy, remove} from 'lodash';
 import {TYPES} from 'src/ioc';
-import {User, UserDetail, UserDetailType, UserType} from 'src/models/interfaces';
+import {Role, User, UserDetail, UserDetailType, UserType} from 'src/models/interfaces';
 import {UpdateUserInfo} from 'src/types/request/UpdateUserInfo';
 import {UserService} from '../interfaces';
 
@@ -10,10 +10,14 @@ import {UserService} from '../interfaces';
 export class UserServiceImpl implements UserService {
     private userDetail: UserDetail;
     private user: User;
+    private role: Role;
 
-    constructor(@inject(TYPES.UserDetail) userDetail: UserDetail, @inject(TYPES.User) user: User) {
+    constructor(
+        @inject(TYPES.UserDetail) userDetail: UserDetail, @inject(TYPES.User) user: User, @inject(TYPES.Role) role: Role
+    ) {
         this.userDetail = userDetail;
         this.user = user;
+        this.role = role;
     }
 
     async getAllUserDataById(userId: string): Promise<UserType & Partial<UserDetailType>> {
@@ -52,6 +56,22 @@ export class UserServiceImpl implements UserService {
         }
         const updatedUser = {...userDetail, ...omitBy(updateUserInfo, isNil)} as UserDetailType;
         this.userDetail.update(updatedUser);
+
+        this.updateUserRoleIfWasAnon(userId);
+
+    }
+
+    private async updateUserRoleIfWasAnon(userId: string) {
+        const user = (await this.user.findById(userId));
+        if (!user) {
+            throw new Error(`No user with id = ${userId}`);
+        }
+        if (!user.roles.some(({roleName}) => roleName === 'ANON')) {
+            return;
+        }
+        remove(user.roles, (r) => r.roleName === 'ANON');
+        user.roles.push(await this.role.getByRoleName('COMMON_USER'));
+        this.user.update(user);
     }
 
 }

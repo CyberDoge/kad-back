@@ -33,4 +33,8 @@ export class NewlyContractServiceImpl implements NewlyContractService {
     findNewlyContractByOrderId(orderId: OrderType['id']): Promise<NewlyContractType | undefined> {
         return this.newlyContract.findNewlyContractByOrderId(orderId);
     }
+
+    async getOrdersByCustomerId(customerId: UserType['id']): Promise<OrderType[]> {
+        return (await this.newlyContract.findAllNewlyContractsByCustomerId(customerId)).map(c => c.order);
+    }
 }

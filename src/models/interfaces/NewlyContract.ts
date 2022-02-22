@@ -14,5 +14,7 @@ export interface NewlyContract {
 
     findNewlyContractByOrderId(orderId: OrderType['id']): Promise<NewlyContractType | undefined>;
 
+    findAllNewlyContractsByCustomerId(customerId: UserType['id']): Promise<NewlyContractType[]>;
+
     updateNewlyContact(contract: NewlyContractType);
 }

@@ -1,12 +1,12 @@
 import {Container} from 'inversify';
 import 'reflect-metadata';
 import {
+    InFileNewlyContract,
+    InFileOrder,
+    InFileUser,
     InFileUserDetailData,
-    InMemoryNewlyContract,
-    InMemoryOrder,
     InMemoryPlatformEvent,
-    InMemoryRole,
-    InMemoryUser
+    InMemoryRole
 } from 'src/models/inFile';
 import {NewlyContract, Order, PlatformEvent, Role, User} from 'src/models/interfaces';
 import {UserDetail} from 'src/models/interfaces/UserDetailData';
@@ -32,11 +32,11 @@ import {TYPES} from './iocTypes';
 
 const container = new Container();
 
-container.bind<User>(TYPES.User).to(InMemoryUser).inSingletonScope();
+container.bind<User>(TYPES.User).to(InFileUser).inSingletonScope();
 container.bind<UserDetail>(TYPES.UserDetail).to(InFileUserDetailData).inSingletonScope();
 container.bind<Role>(TYPES.Role).to(InMemoryRole).inSingletonScope();
-container.bind<Order>(TYPES.Order).to(InMemoryOrder).inSingletonScope();
-container.bind<NewlyContract>(TYPES.NewlyContract).to(InMemoryNewlyContract).inSingletonScope();
+container.bind<Order>(TYPES.Order).to(InFileOrder).inSingletonScope();
+container.bind<NewlyContract>(TYPES.NewlyContract).to(InFileNewlyContract).inSingletonScope();
 container.bind<PlatformEvent>(TYPES.PlatformEvent).to(InMemoryPlatformEvent).inSingletonScope();
 
 container.bind<RegistrationService>(TYPES.RegistrationService).to(RegistrationServiceImpl);

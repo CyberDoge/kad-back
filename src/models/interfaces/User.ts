@@ -14,4 +14,6 @@ export interface User {
     findByEmail(email: string): Promise<UserType | undefined>;
 
     save(user: Optional<UserType, 'id'>): Promise<UserType>;
+
+    update(user: UserType): Promise<UserType>;
 }

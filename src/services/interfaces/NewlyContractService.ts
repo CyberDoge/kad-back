@@ -6,4 +6,6 @@ export interface NewlyContractService {
     createNewlyContract(order: OrderType, customerId: UserType['id']): void;
 
     findNewlyContractByOrderId(orderId: OrderType['id']): Promise<NewlyContractType | undefined>;
+
+    getOrdersByCustomerId(customerId: UserType['id']): Promise<OrderType[]>;
 }

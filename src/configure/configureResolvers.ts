@@ -1,7 +1,13 @@
 import {login, order as orderMutations, registration, user as userMutation} from 'src/graphql/resolvers/mutations';
 import {order as orderQueries, user as userQueries} from 'src/graphql/resolvers/queries';
 import {container, TYPES} from 'src/ioc';
-import {LoginService, OrderService, RegistrationService, UserService} from 'src/services/interfaces';
+import {
+    LoginService,
+    NewlyContractService,
+    OrderService,
+    RegistrationService,
+    UserService
+} from 'src/services/interfaces';
 import {OrderInteractor} from 'src/useCaseInteractors/interfaces';
 
 export const configureResolvers = () => {
@@ -9,6 +15,7 @@ export const configureResolvers = () => {
     const registrationService = container.get<RegistrationService>(TYPES.RegistrationService);
     const orderService = container.get<OrderService>(TYPES.OrderService);
     const userService = container.get<UserService>(TYPES.UserService);
+    const newlyContractService = container.get<NewlyContractService>(TYPES.NewlyContractService);
     const orderInteractor = container.get<OrderInteractor>(TYPES.OrderInteractor);
 
     return {
@@ -19,7 +26,7 @@ export const configureResolvers = () => {
             ...userMutation(userService)
         },
         Query: {
-            ...orderQueries(orderService),
+            ...orderQueries(orderService, newlyContractService),
             ...userQueries(userService)
         }
     };

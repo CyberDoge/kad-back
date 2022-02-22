@@ -4,7 +4,6 @@ import {TYPES} from 'src/ioc';
 import {OrderType, UserType} from 'src/models/interfaces';
 import {EventOrderService, NewlyContractService, OrderService} from 'src/services/interfaces';
 import {CreateOrderRequest} from 'src/types/request';
-import {OrderResponse} from 'src/types/response';
 import {OrderInteractor} from 'src/useCaseInteractors/interfaces';
 
 @injectable()
@@ -23,7 +22,7 @@ export class OrderInteractorImpl implements OrderInteractor {
         this.eventOrderService = eventOrderService;
     }
 
-    async createNewOrder(order: CreateOrderRequest, customerId: UserType['id']): Promise<OrderResponse> {
+    async createNewOrder(order: CreateOrderRequest, customerId: UserType['id']): Promise<OrderType> {
         const newOrder = await this.orderService.createOrder(order);
         this.newlyContractService.createNewlyContract(newOrder, customerId);
 

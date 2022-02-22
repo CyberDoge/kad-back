@@ -30,6 +30,7 @@ export const Order = gql`
     type Query {
         orders(filter: OrderFilter): [Order]
         order(orderId: String): Order
+        myCreatedOrders: [Order]
     }
     extend type Mutation {
         createOrder(order: OrderRequest!): Order

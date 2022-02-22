@@ -22,12 +22,19 @@ export class RegistrationServiceImpl implements RegistrationService {
 
     async registration(credentials: RegisterCredentials): Promise<string | ValidationError> {
         if (await this.user.findByEmail(credentials.email)) {
-            return new ValidationError('user with suck email is already exist');
+            return new ValidationError('user with such email is already exist');
+        }
+        const roles = [await this.role.getByRoleName('ANON')];
+        if (credentials.asCustomer) {
+            roles.push(await this.role.getByRoleName('CUSTOMER'));
+        }
+        if (credentials.asExecutor) {
+            roles.push(await this.role.getByRoleName('EXECUTOR'));
         }
         const newUser = {
             email: credentials.email,
             password: credentials.password,
-            roles: [(await this.role.getByRoleName('COMMON_USER'))]
+            roles
         };
 
         const user = await this.user.save(newUser);

@@ -2,11 +2,10 @@ import {gql} from 'apollo-server-express';
 
 export const Registration = gql`
     input RegistrationCredentials {
-        email: String,
-        phone: String,
-        password: String,
-        smsCode: String,
-        submitPassword: String
+        email: String!,
+        password: String!,
+        asCustomer: Boolean,
+        asExecutor: Boolean,
     }
 
     extend type Mutation {
