@@ -1,12 +1,15 @@
 import {UserType} from 'src/models/interfaces/User';
 
+type EventType = 'orderEvent' | 'userDataEvent'
+
 export type PlatformEventType = {
     id: string
     title: string,
     description?: string,
     date: Date,
     checked: boolean,
-    ownerId: UserType['id']
+    ownerId: UserType['id'],
+    type: EventType,
 }
 
 
@@ -15,6 +18,6 @@ export interface PlatformEvent {
 
     getLastEventsByUserId(ownerId: UserType['id'], count?: number): Promise<PlatformEventType[]>;
 
-    markEventsAsChecked(ownerId: UserType['id'], ids: PlatformEventType['id'][]);
+    markEventsAsChecked(ids: PlatformEventType['id'][]);
 }
 

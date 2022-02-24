@@ -10,13 +10,11 @@ export class InMemoryPlatformEvent implements PlatformEvent {
         this.events = [];
     }
 
-    async getLastEventsByUserId(ownerId: UserType['id'], count = 100): Promise<PlatformEventType[]> {
-        const normalizedCount = Math.min(count, 100);
-
-        return this.events.filter(event => event.ownerId === ownerId).slice(0, normalizedCount);
+    async getLastEventsByUserId(ownerId: UserType['id'], count: number): Promise<PlatformEventType[]> {
+        return this.events.filter(event => event.ownerId === ownerId && !event.checked).slice(0, count);
     }
 
-    markEventsAsChecked(ownerId: UserType['id'], ids: PlatformEventType['id'][]) {
+    markEventsAsChecked(ids: PlatformEventType['id'][]) {
         this.events.filter((e) => ids.includes(e.id)).forEach(e => e.checked = true);
     }
 

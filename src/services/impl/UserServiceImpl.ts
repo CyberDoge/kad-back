@@ -4,20 +4,25 @@ import {isNil, omitBy, remove} from 'lodash';
 import {TYPES} from 'src/ioc';
 import {Role, User, UserDetail, UserDetailType, UserType} from 'src/models/interfaces';
 import {UpdateUserInfo} from 'src/types/request/UpdateUserInfo';
-import {UserService} from '../interfaces';
+import {EventService, UserService} from '../interfaces';
 
 @injectable()
 export class UserServiceImpl implements UserService {
     private userDetail: UserDetail;
     private user: User;
     private role: Role;
+    private eventService: EventService;
 
     constructor(
-        @inject(TYPES.UserDetail) userDetail: UserDetail, @inject(TYPES.User) user: User, @inject(TYPES.Role) role: Role
+        @inject(TYPES.UserDetail) userDetail: UserDetail,
+        @inject(TYPES.User) user: User,
+        @inject(TYPES.Role) role: Role,
+        @inject(TYPES.EventService) eventService: EventService
     ) {
         this.userDetail = userDetail;
         this.user = user;
         this.role = role;
+        this.eventService = eventService;
     }
 
     async getAllUserDataById(userId: string): Promise<UserType & Partial<UserDetailType>> {
@@ -43,6 +48,7 @@ export class UserServiceImpl implements UserService {
                     'First name and second name must by filled if updating not created user details'
                 );
             }
+            this.updateUserRoleIfWasAnon(userId);
             this.userDetail.create({
                 userId,
                 phones: updateUserInfo.phones || [],
@@ -51,14 +57,17 @@ export class UserServiceImpl implements UserService {
                 secondName: updateUserInfo.secondName,
                 ...updateUserInfo
             });
+        } else {
+            const updatedUser = {...userDetail, ...omitBy(updateUserInfo, isNil)} as UserDetailType;
+            this.userDetail.update(updatedUser);
 
-            return;
+            this.updateUserRoleIfWasAnon(userId);
         }
-        const updatedUser = {...userDetail, ...omitBy(updateUserInfo, isNil)} as UserDetailType;
-        this.userDetail.update(updatedUser);
-
-        this.updateUserRoleIfWasAnon(userId);
-
+        this.eventService.createCommonEvent({
+            type: 'userDataEvent',
+            ownerId: userId,
+            title: 'Ваши личные данные обновлены'
+        });
     }
 
     private async updateUserRoleIfWasAnon(userId: string) {
@@ -72,6 +81,7 @@ export class UserServiceImpl implements UserService {
         remove(user.roles, (r) => r.roleName === 'ANON');
         user.roles.push(await this.role.getByRoleName('COMMON_USER'));
         this.user.update(user);
+
     }
 
 }

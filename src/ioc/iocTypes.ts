@@ -10,6 +10,7 @@ export const TYPES = {
     RegistrationService: Symbol.for('RegistrationService'),
     LoginService: Symbol.for('LoginService'),
     OrderService: Symbol.for('OrderService'),
+    EventService: Symbol.for('EventService'),
     NewlyContractService: Symbol.for('NewlyContractService'),
     EventOrderService: Symbol.for('EventOrderService'),
     OrderInteractor: Symbol.for('OrderInteractor'),

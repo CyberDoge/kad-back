@@ -20,6 +20,7 @@ import {
 import {UserServiceImpl} from 'src/services/impl/UserServiceImpl';
 import {
     EventOrderService,
+    EventService,
     LoginService,
     NewlyContractService,
     OrderService,
@@ -45,6 +46,7 @@ container.bind<OrderService>(TYPES.OrderService).to(OrderServiceImpl).inRequestS
 container.bind<UserService>(TYPES.UserService).to(UserServiceImpl).inRequestScope();
 container.bind<NewlyContractService>(TYPES.NewlyContractService).to(NewlyContractServiceImpl);
 container.bind<EventOrderService>(TYPES.EventOrderService).to(EventServiceImpl);
+container.bind<EventService>(TYPES.EventService).to(EventServiceImpl);
 
 container.bind<OrderInteractor>(TYPES.OrderInteractor).to(OrderInteractorImpl);
 
