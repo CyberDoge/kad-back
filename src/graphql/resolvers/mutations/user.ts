@@ -1,15 +1,17 @@
 import {AuthenticationError} from 'apollo-server-express';
-import {UserService} from 'src/services/interfaces';
 import {Context} from 'src/types/Context';
-import {UpdateUserInfo} from 'src/types/request/UpdateUserInfo';
+import {UserDetailsRequest} from 'src/types/request';
+import {UserInteractor} from 'src/useCaseInteractors/interfaces';
+import {mapUserDetailRequestToUserDetail} from 'src/utils/typeMappers';
 
-export const user = (userService: UserService) =>
+export const user = (userInteractor: UserInteractor) =>
     ({
-        updateCurrentUser: async (_, {updateUserInfo}: { updateUserInfo: UpdateUserInfo }, {user}: Context) => {
-            if (!user) {
-                throw new AuthenticationError('not authenticated');
-            }
+        updateCurrentUser:
+            async (_, {userDetailsRequest}: { userDetailsRequest: UserDetailsRequest }, {user}: Context) => {
+                if (!user) {
+                    throw new AuthenticationError('not authenticated');
+                }
 
-            userService.updateUserById(user.id, updateUserInfo);
-        },
+                userInteractor.updateUserDetail(user.id, mapUserDetailRequestToUserDetail(userDetailsRequest));
+            },
     });

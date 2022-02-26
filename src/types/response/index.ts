@@ -1,3 +1,3 @@
 export * from './OrderResponse';
-export * from './CurrentUser';
+export * from 'src/types/response/CurrentUserResponse';
 

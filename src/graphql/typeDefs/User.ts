@@ -10,10 +10,10 @@ export const User = gql`
         emails: [String],
     }
 
-    input UpdateUserInfo {
+    input UserDetailsRequest {
         avatarUrl: String,
-        firstName: String,
-        secondName: String,
+        firstName: String!,
+        secondName: String!,
         thirdName: String,
         emails: [String],
         phones: [String],
@@ -22,6 +22,6 @@ export const User = gql`
         currentUser: CurrentUser
     }
     extend type Mutation {
-        updateCurrentUser(updateUserInfo: UpdateUserInfo!): Boolean
+        updateCurrentUser(userDetailsRequest: UserDetailsRequest!): Boolean
     }
 `;

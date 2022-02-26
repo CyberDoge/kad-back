@@ -1,9 +1,8 @@
 import {ValidationError} from 'apollo-server-errors';
 import {inject, injectable} from 'inversify';
-import {codeUser} from 'src/helpers/jwtHelper';
 import {TYPES} from 'src/ioc';
 
-import {Role, User} from 'src/models/interfaces';
+import {Role, User, UserType} from 'src/models/interfaces';
 import {RegisterCredentials} from 'src/types/request';
 import {RegistrationService} from '../interfaces';
 
@@ -20,9 +19,9 @@ export class RegistrationServiceImpl implements RegistrationService {
         this.role = role;
     }
 
-    async registration(credentials: RegisterCredentials): Promise<string | ValidationError> {
+    async registration(credentials: RegisterCredentials): Promise<UserType> {
         if (await this.user.findByEmail(credentials.email)) {
-            return new ValidationError('user with such email is already exist');
+            throw new ValidationError('user with such email is already exist');
         }
         const roles = [await this.role.getByRoleName('ANON')];
         if (credentials.asCustomer) {
@@ -37,12 +36,7 @@ export class RegistrationServiceImpl implements RegistrationService {
             roles
         };
 
-        const user = await this.user.save(newUser);
-
-        return codeUser({
-            id: user.id,
-            roles: user.roles.map(r => r.roleName)
-        });
+        return await this.user.save(newUser);
     }
 
 

@@ -3,5 +3,6 @@ export * from './Role';
 export * from './Order';
 export * from './NewlyContract';
 export * from './PlatformEvent';
-export * from './UserDetailData';
+export * from './UserDetail';
+export * from './UserOperatingData';
 

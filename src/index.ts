@@ -7,8 +7,8 @@ import http from 'http';
 import morgan from 'morgan';
 import {parsedConf} from 'src/configure';
 import {permissions} from 'src/configure/permissions';
+import {configureResolvers} from 'src/graphql/resolvers/configureResolvers';
 import {jwtMiddleWare} from 'src/helpers/jwtHelper';
-import {configureResolvers} from './configure/configureResolvers';
 import {typeDefs} from './graphql/typeDefs';
 
 

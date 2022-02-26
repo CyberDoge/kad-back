@@ -13,6 +13,7 @@ export const formatOrderModelToResponse = (order: OrderType): OrderResponse => {
     };
 };
 
+// todo заменить
 export const formatOrderFilterRequestToModel = (filter?: OrderFilter): OrderFilterType => {
     if (!filter) {
         return {

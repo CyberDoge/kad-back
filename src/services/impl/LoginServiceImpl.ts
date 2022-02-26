@@ -1,9 +1,7 @@
 import {AuthenticationError} from 'apollo-server-express';
 import {inject, injectable} from 'inversify';
-import {codeUser} from 'src/helpers/jwtHelper';
 import {TYPES} from 'src/ioc';
-import {User} from 'src/models/interfaces';
-import {ContextUser} from 'src/types/ContextUser';
+import {User, UserType} from 'src/models/interfaces';
 import {LoginCredentials} from 'src/types/request';
 import {LoginService} from '../interfaces';
 
@@ -20,21 +18,17 @@ export class LoginServiceImpl implements LoginService {
     }
 
 
-    async login(loginCredentials: LoginCredentials): Promise<string | AuthenticationError> {
+    async login(loginCredentials: LoginCredentials): Promise<UserType> {
         const isValid = await this.validateCredentialsInput(loginCredentials);
         if (!isValid) {
-            return new AuthenticationError('invalid credentials input');
+            throw new AuthenticationError('invalid credentials input');
         }
         const user = await this.user.findByEmail(loginCredentials.email);
         if (!user || user.password !== loginCredentials.password) {
-            return new AuthenticationError('invalid credentials');
+            throw new AuthenticationError('invalid credentials');
         }
-        const contextUser: ContextUser = {
-            id: user.id,
-            roles: user.roles.map(r => r.roleName)
-        };
 
-        return codeUser(contextUser);
+        return user;
     }
 
 }

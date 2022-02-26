@@ -1,4 +1,4 @@
-export type CurrentUser = {
+export type CurrentUserResponse = {
     id: string,
     roles: string[],
     avatarUrl?: string,

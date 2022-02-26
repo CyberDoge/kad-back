@@ -17,6 +17,9 @@ export class NewlyContractServiceImpl implements NewlyContractService {
         if (!contract) {
             throw new Error(`No such contract with order with id ${orderId}`);
         }
+        if (contract.potentialExecutorIds.includes(executorId)) {
+            return;
+        }
         contract.potentialExecutorIds.push(executorId);
         this.newlyContract.updateNewlyContact(contract);
     }

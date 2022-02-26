@@ -1,7 +1,9 @@
-import {RegistrationService} from 'src/services/interfaces/RegistrationService';
+import {codeUser} from 'src/helpers/jwtHelper';
 import {RegisterCredentials} from 'src/types/request/RegisterCredentials';
+import {RegistrationInteractor} from 'src/useCaseInteractors/interfaces';
+import {mapUserToContextUser} from 'src/utils/typeMappers';
 
-export const registration = (registrationService: RegistrationService) =>
-    (_, {credentials}: { credentials: RegisterCredentials }) => {
-        return registrationService.registration(credentials);
+export const registration = (registrationInteractor: RegistrationInteractor) =>
+    async (_, {credentials}: { credentials: RegisterCredentials }) => {
+        return codeUser(mapUserToContextUser(await registrationInteractor.registration(credentials)));
     };

@@ -5,19 +5,21 @@ import {
     InFileOrder,
     InFileUser,
     InFileUserDetailData,
+    InFileUserOperatingData,
     InMemoryPlatformEvent,
     InMemoryRole
 } from 'src/models/inFile';
-import {NewlyContract, Order, PlatformEvent, Role, User} from 'src/models/interfaces';
-import {UserDetail} from 'src/models/interfaces/UserDetailData';
+import {NewlyContract, Order, PlatformEvent, Role, User, UserDetail, UserOperatingData} from 'src/models/interfaces';
 import {
     EventServiceImpl,
     LoginServiceImpl,
     NewlyContractServiceImpl,
     OrderServiceImpl,
-    RegistrationServiceImpl
+    RegistrationServiceImpl,
+    UserDetailServiceImpl,
+    UserOperatingDataServiceImpl,
+    UserServiceImpl
 } from 'src/services/impl';
-import {UserServiceImpl} from 'src/services/impl/UserServiceImpl';
 import {
     EventOrderService,
     EventService,
@@ -25,10 +27,12 @@ import {
     NewlyContractService,
     OrderService,
     RegistrationService,
+    UserDetailService,
+    UserOperatingDataService,
     UserService
 } from 'src/services/interfaces';
-import {OrderInteractorImpl} from 'src/useCaseInteractors/impl';
-import {OrderInteractor} from 'src/useCaseInteractors/interfaces';
+import {OrderInteractorImpl, RegistrationInteractorImpl, UserInteractorImpl} from 'src/useCaseInteractors/impl';
+import {OrderInteractor, RegistrationInteractor, UserInteractor} from 'src/useCaseInteractors/interfaces';
 import {TYPES} from './iocTypes';
 
 const container = new Container();
@@ -39,6 +43,7 @@ container.bind<Role>(TYPES.Role).to(InMemoryRole).inSingletonScope();
 container.bind<Order>(TYPES.Order).to(InFileOrder).inSingletonScope();
 container.bind<NewlyContract>(TYPES.NewlyContract).to(InFileNewlyContract).inSingletonScope();
 container.bind<PlatformEvent>(TYPES.PlatformEvent).to(InMemoryPlatformEvent).inSingletonScope();
+container.bind<UserOperatingData>(TYPES.UserOperatingData).to(InFileUserOperatingData).inSingletonScope();
 
 container.bind<RegistrationService>(TYPES.RegistrationService).to(RegistrationServiceImpl);
 container.bind<LoginService>(TYPES.LoginService).to(LoginServiceImpl);
@@ -47,8 +52,12 @@ container.bind<UserService>(TYPES.UserService).to(UserServiceImpl).inRequestScop
 container.bind<NewlyContractService>(TYPES.NewlyContractService).to(NewlyContractServiceImpl);
 container.bind<EventOrderService>(TYPES.EventOrderService).to(EventServiceImpl);
 container.bind<EventService>(TYPES.EventService).to(EventServiceImpl);
+container.bind<UserOperatingDataService>(TYPES.UserOperatingDataService).to(UserOperatingDataServiceImpl);
+container.bind<UserDetailService>(TYPES.UserDetailService).to(UserDetailServiceImpl);
 
 container.bind<OrderInteractor>(TYPES.OrderInteractor).to(OrderInteractorImpl);
+container.bind<UserInteractor>(TYPES.UserInteractor).to(UserInteractorImpl);
+container.bind<RegistrationInteractor>(TYPES.RegistrationInteractor).to(RegistrationInteractorImpl);
 
 
 export {container};

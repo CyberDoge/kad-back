@@ -1,8 +1,9 @@
-import {UserType} from 'src/models/interfaces';
-import {UserDetailType} from 'src/models/interfaces/UserDetailData';
-import {CurrentUser} from 'src/types/response';
+import {UserDetailType, UserType} from 'src/models/interfaces';
+import {ContextUser} from 'src/types/ContextUser';
+import {UserDetailsRequest} from 'src/types/request';
+import {CurrentUserResponse} from 'src/types/response';
 
-export function mapUserDetailTypeToCurrentUser(user: Partial<UserDetailType> & UserType): CurrentUser {
+export function mapUserDetailToCurrentUserResponse(user: Partial<UserDetailType> & UserType): CurrentUserResponse {
     return {
         id: user.id,
         roles: user.roles.map((r) => r.roleName),
@@ -11,5 +12,24 @@ export function mapUserDetailTypeToCurrentUser(user: Partial<UserDetailType> & U
         primaryEmail: user.email,
         emails: user.emails || [],
         phones: user.phones || [],
+    };
+}
+
+export function mapUserDetailRequestToUserDetail(userDetailsRequest: UserDetailsRequest)
+    : Omit<UserDetailType, 'id' | 'userId'> {
+    return {
+        firstName: userDetailsRequest.firstName,
+        secondName: userDetailsRequest.secondName,
+        thirdName: userDetailsRequest.thirdName,
+        avatarUrl: userDetailsRequest.avatarUrl,
+        phones: userDetailsRequest.phones || [],
+        emails: userDetailsRequest.emails || []
+    };
+}
+
+export function mapUserToContextUser(user: UserType): ContextUser {
+    return {
+        id: user.id,
+        roles: user.roles.map(r => r.roleName)
     };
 }
