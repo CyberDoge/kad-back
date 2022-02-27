@@ -4,6 +4,7 @@ import {ApolloServer} from 'apollo-server-express';
 import express from 'express';
 import {applyMiddleware} from 'graphql-middleware';
 import http from 'http';
+import 'module-alias/register';
 import morgan from 'morgan';
 import {parsedConf} from 'src/configure';
 import {permissions} from 'src/configure/permissions';

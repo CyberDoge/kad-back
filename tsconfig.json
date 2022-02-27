@@ -10,6 +10,7 @@
     "strictPropertyInitialization": true,
     "strictFunctionTypes": true,
     "experimentalDecorators": true,
+    "declaration": true,
     "types": [
       "reflect-metadata"
     ],
