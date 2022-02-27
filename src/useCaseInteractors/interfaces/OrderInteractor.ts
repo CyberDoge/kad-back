@@ -5,4 +5,6 @@ export interface OrderInteractor {
     createNewOrder(order: CreateOrderRequest, customerId: UserType['id']): Promise<OrderType>;
 
     enrollToOrder(orderId: OrderType['id'], executorId: UserType['id']);
+
+    unEnrollToOrder(orderId: OrderType['id'], executorId: UserType['id']);
 }

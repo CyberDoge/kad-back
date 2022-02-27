@@ -40,4 +40,14 @@ export class OrderInteractorImpl implements OrderInteractor {
 
     }
 
+    async unEnrollToOrder(orderId: OrderType['id'], executorId: UserType['id']) {
+        const contract = await this.newlyContractService.findNewlyContractByOrderId(orderId);
+        if (!contract) {
+            throw new ValidationError(`No such order with orderId=${orderId} from user ${executorId}`);
+        }
+        await this.newlyContractService.removePotentialExecutorToOrderId(orderId, executorId);
+
+        this.eventOrderService.userUnEnrolledToNewlyContract(contract);
+    }
+
 }

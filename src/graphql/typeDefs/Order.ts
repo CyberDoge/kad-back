@@ -30,10 +30,12 @@ export const Order = gql`
     type Query {
         orders(filter: OrderFilter): [Order]
         order(orderId: String): Order
+        isOrderEnrolledByMe(orderId: String): Boolean
         myCreatedOrders: [Order]
     }
     extend type Mutation {
         createOrder(order: OrderRequest!): Order
         enrollToOrder(orderId: String!): Boolean
+        unEnrollToOrder(orderId: String!): Boolean
     }
 `;

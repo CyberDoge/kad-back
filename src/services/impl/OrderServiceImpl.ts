@@ -1,9 +1,9 @@
 import {ValidationError} from 'apollo-server-errors';
 import {inject, injectable} from 'inversify';
-import {formatOrderFilterRequestToModel} from 'src/formatters';
 import {TYPES} from 'src/ioc';
 import {Order, OrderType} from 'src/models/interfaces';
 import {CreateOrderRequest, OrderFilter} from 'src/types/request';
+import {mapOrderFilterRequestToOrderFilterType} from 'src/utils/typeMappers';
 import {validateOrderFilter} from 'src/validators/orderValidator';
 import {OrderService} from '../interfaces';
 
@@ -26,7 +26,7 @@ export class OrderServiceImpl implements OrderService {
             throw new ValidationError('Invalid filter data');
         }
 
-        return this.order.findByFilter(formatOrderFilterRequestToModel(filter));
+        return this.order.findByFilter(mapOrderFilterRequestToOrderFilterType(filter));
     }
 
     async createOrder(order: CreateOrderRequest): Promise<OrderType> {

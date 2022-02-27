@@ -38,4 +38,14 @@ export class EventServiceImpl implements EventOrderService, EventService {
         });
     }
 
+    userUnEnrolledToNewlyContract(newlyContract: NewlyContractType): Promise<string> {
+        return this.platformEvent.saveEventToQueue({
+            checked: false,
+            title: 'Исполнитель отказался от заявки',
+            ownerId: newlyContract.customerId,
+            description: `Всего заявителей - ${newlyContract.potentialExecutorIds.length}`,
+            type: 'orderEvent'
+        });
+    }
+
 }

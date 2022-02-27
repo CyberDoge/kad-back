@@ -19,5 +19,8 @@ export const order = (orderService: OrderService, newlyContractService: NewlyCon
             }
 
             return await newlyContractService.getOrdersByCustomerId(user.id);
+        },
+        isOrderEnrolledByMe: async (_, {orderId}: { orderId: string }, {user}: Context) => {
+            return newlyContractService.isExecutorEnrolledToOrder(orderId, user?.id);
         }
     });

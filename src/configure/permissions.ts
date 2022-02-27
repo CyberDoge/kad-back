@@ -23,11 +23,14 @@ export const permissions = shield({
         '*': allow,
         currentUser: isAuthenticated,
         myCreatedOrders: isCustomer,
+        isOrderEnrolledByMe: isExecutor,
     },
     Mutation: {
         login: allow,
         registration: allow,
         createOrder: isCustomer,
-        updateCurrentUser: isAuthenticated
+        updateCurrentUser: isAuthenticated,
+        enrollToOrder: isExecutor,
+        unEnrollToOrder: isExecutor
     },
 });
