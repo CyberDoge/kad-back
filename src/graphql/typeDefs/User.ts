@@ -5,9 +5,12 @@ export const User = gql`
     type CurrentUser {
         id: String,
         roles: [String],
-        fullName: String,
+        firstName: String,
+        secondName: String,
+        thirdName: String,
         primaryEmail: String,
         emails: [String],
+        phones: [String],
     }
 
     input UserDetailsRequest {

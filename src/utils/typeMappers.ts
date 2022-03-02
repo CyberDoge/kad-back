@@ -8,7 +8,9 @@ export function mapUserDetailToCurrentUserResponse(user: Partial<UserDetailType>
     return {
         id: user.id,
         roles: user.roles.map((r) => r.roleName),
-        fullName: [user.firstName, user.secondName, user.thirdName].filter(Boolean).join(' '),
+        firstName: user.firstName,
+        secondName: user.secondName,
+        thirdName: user.thirdName,
         avatarUrl: user.avatarUrl,
         primaryEmail: user.email,
         emails: user.emails || [],

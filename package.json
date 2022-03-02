@@ -13,9 +13,6 @@
     "start:prod": "node dist/index.js",
     "lint": "eslint . --ext .ts --fix"
   },
-  "_moduleAliases": {
-    "src": "dist"
-  },
   "bugs": {
     "url": "https://github.com/CyberDoge/kad-back/issues"
   },
