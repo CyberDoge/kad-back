@@ -6,7 +6,7 @@ export const TYPES = {
     NewlyContract: Symbol.for('NewlyContract'),
     PlatformEvent: Symbol.for('PlatformEvent'),
     UserOperatingData: Symbol.for('UserOperatingData'),
-    UserOperatingDataService: Symbol.for('UserOperatingDataService'),
+    UserCompetence: Symbol.for('UserCompetence'),
 
     UserService: Symbol.for('UserService'),
     RegistrationService: Symbol.for('RegistrationService'),
@@ -16,6 +16,8 @@ export const TYPES = {
     NewlyContractService: Symbol.for('NewlyContractService'),
     EventOrderService: Symbol.for('EventOrderService'),
     UserDetailService: Symbol.for('UserDetailService'),
+    UserCompetenceService: Symbol.for('UserCompetenceService'),
+    UserOperatingDataService: Symbol.for('UserOperatingDataService'),
 
     OrderInteractor: Symbol.for('OrderInteractor'),
     UserInteractor: Symbol.for('UserInteractor'),

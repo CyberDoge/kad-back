@@ -1,20 +1,22 @@
 import {inject, injectable} from 'inversify';
 import {remove} from 'lodash';
 import {TYPES} from 'src/ioc';
-import {OrderType, Role, UserDetail, UserDetailType, UserType} from 'src/models/interfaces';
-import {EventService, UserOperatingDataService, UserService} from 'src/services/interfaces';
+import {OrderType, Role, UserCompetenceType, UserDetail, UserDetailType, UserType} from 'src/models/interfaces';
+import {EventService, UserCompetenceService, UserOperatingDataService, UserService} from 'src/services/interfaces';
 import {UserInteractor} from 'src/useCaseInteractors/interfaces';
 
 @injectable()
 export class UserInteractorImpl implements UserInteractor {
     private userDetail: UserDetail;
+    private userService: UserService;
+    private userCompetenceService: UserCompetenceService;
     private userOperatingDataService: UserOperatingDataService;
     private eventService: EventService;
-    private userService: UserService;
     private role: Role;
 
     constructor(
         @inject(TYPES.UserDetail) userDetail: UserDetail,
+        @inject(TYPES.UserCompetenceService) userCompetenceService: UserCompetenceService,
         @inject(TYPES.UserOperatingDataService) userOperatingDataService: UserOperatingDataService,
         @inject(TYPES.EventService) eventService: EventService,
         @inject(TYPES.UserService) userService: UserService,
@@ -22,6 +24,7 @@ export class UserInteractorImpl implements UserInteractor {
     ) {
         this.userDetail = userDetail;
         this.userOperatingDataService = userOperatingDataService;
+        this.userCompetenceService = userCompetenceService;
         this.eventService = eventService;
         this.userService = userService;
         this.role = role;
@@ -43,6 +46,10 @@ export class UserInteractorImpl implements UserInteractor {
             ownerId: userId,
             title: 'Ваши личные данные обновлены'
         });
+    }
+
+    updateUserCompetence(userId: UserType['id'], userCompetence: Omit<UserCompetenceType, 'id' | 'userId'>) {
+        this.userCompetenceService.updateUserCompetence(userId, userCompetence);
     }
 
     private async updateUserRoleIfWasAnon(userId: string) {

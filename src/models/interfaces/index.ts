@@ -5,4 +5,5 @@ export * from './NewlyContract';
 export * from './PlatformEvent';
 export * from './UserDetail';
 export * from './UserOperatingData';
+export * from './UserСompetence';
 

@@ -6,3 +6,4 @@ export * from './EventServiceImpl';
 export * from './UserOperatingDataServiceImpl';
 export * from './UserDetailServiceImpl';
 export * from './UserServiceImpl';
+export * from './UserCompetenceServiceImpl';
