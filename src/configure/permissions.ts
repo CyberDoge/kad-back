@@ -29,7 +29,8 @@ export const permissions = shield({
         login: allow,
         registration: allow,
         createOrder: isCustomer,
-        updateCurrentUser: isAuthenticated,
+        updateCurrentUserDetails: isAuthenticated,
+        updateUserCompetence: isAuthenticated,
         enrollToOrder: isExecutor,
         unEnrollToOrder: isExecutor
     },

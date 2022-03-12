@@ -47,4 +47,4 @@ async function startApolloServer(
 
 const resolvers = configureResolvers();
 
-export const serverStarter = () => startApolloServer(typeDefs, resolvers);
+export const startServer = () => startApolloServer(typeDefs, resolvers);

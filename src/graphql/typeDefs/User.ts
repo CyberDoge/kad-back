@@ -11,6 +11,16 @@ export const User = gql`
         primaryEmail: String,
         emails: [String],
         phones: [String],
+        workExperienceArray: [WorkExperience],
+        pdfResume: String
+    }
+
+    type WorkExperience {
+        placeOfWork: String,
+        position: String,
+        dateFrom: String,
+        dateTo: String,
+        description: String
     }
 
     input UserDetailsRequest {
@@ -21,10 +31,24 @@ export const User = gql`
         emails: [String],
         phones: [String],
     }
+
+    input UserCompetenceRequest {
+        workExperienceArray: [WorkExperienceRequest],
+        pdfResume: String
+    }
+    input WorkExperienceRequest {
+        placeOfWork: String!,
+        position: String!,
+        dateFrom: String!,
+        dateTo: String!,
+        description: String
+    }
+
     extend type Query {
         currentUser: CurrentUser
     }
     extend type Mutation {
-        updateCurrentUser(userDetailsRequest: UserDetailsRequest!): Boolean
+        updateCurrentUserDetails(userDetailsRequest: UserDetailsRequest!): Boolean
+        updateUserCompetence(userCompetence: UserCompetenceRequest!): Boolean
     }
 `;

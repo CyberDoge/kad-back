@@ -4,8 +4,8 @@ moduleAlias.addAliases({
     src: `${__dirname}`,
 });
 
-import('./serverStarter').then(
+import('src/startServer').then(
     (starter) => {
-        starter.serverStarter();
+        starter.startServer();
     }
 );

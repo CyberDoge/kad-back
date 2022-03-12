@@ -1,10 +1,11 @@
 import {COMMON_ORDERS_ARRAY_LENGTH} from 'src/consts';
-import {OrderFilterType, UserDetailType, UserType} from 'src/models/interfaces';
+import {OrderFilterType, UserCompetenceType, UserDetailType, UserType} from 'src/models/interfaces';
 import {ContextUser} from 'src/types/ContextUser';
 import {OrderFilter, UserDetailsRequest} from 'src/types/request';
 import {CurrentUserResponse} from 'src/types/response';
 
-export function mapUserDetailToCurrentUserResponse(user: Partial<UserDetailType> & UserType): CurrentUserResponse {
+export function mapUserDetailToCurrentUserResponse(user: Partial<UserDetailType & UserCompetenceType> & UserType)
+    : CurrentUserResponse {
     return {
         id: user.id,
         roles: user.roles.map((r) => r.roleName),
@@ -15,6 +16,8 @@ export function mapUserDetailToCurrentUserResponse(user: Partial<UserDetailType>
         primaryEmail: user.email,
         emails: user.emails || [],
         phones: user.phones || [],
+        workExperienceArray: user.workExperienceArray,
+        pdfResume: user.pdfResume,
     };
 }
 

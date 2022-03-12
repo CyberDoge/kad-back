@@ -1,4 +1,4 @@
-import {UserType} from 'src/models/interfaces/User';
+import {UserType} from 'src/models/interfaces';
 
 export type UserCompetenceType = {
     id: string,
@@ -10,8 +10,8 @@ export type UserCompetenceType = {
 type WorkExperience = {
     placeOfWork: string,
     position: string,
-    dateFrom: Date,
-    dateTo?: Date,
+    dateFrom: string,
+    dateTo: string,
     description?: string
 }
 
