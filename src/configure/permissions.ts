@@ -1,10 +1,6 @@
 import {allow, rule, shield} from 'graphql-shield';
 import {Context} from 'src/types/Context';
 
-const isAdmin = rule()(async (_1, _2, ctx: Context) => {
-    return !!ctx.user?.roles.includes('ADMIN');
-});
-
 const isAuthenticated = rule()(async (_1, _2, ctx: Context) => {
     return !!ctx.user;
 });
@@ -23,6 +19,7 @@ export const permissions = shield({
         '*': allow,
         currentUser: isAuthenticated,
         myCreatedOrders: isCustomer,
+        orderExecutorsWorkExperience: isCustomer,
         isOrderEnrolledByMe: isExecutor,
     },
     Mutation: {

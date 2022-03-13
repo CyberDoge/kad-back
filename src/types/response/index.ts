@@ -1,3 +1,4 @@
 export * from './OrderResponse';
-export * from 'src/types/response/CurrentUserResponse';
+export * from './CurrentUserResponse';
+export * from 'src/types/response/OrderExecutorsWorkExperienceResponse';
 

@@ -1,6 +1,7 @@
 import {Event} from './Event';
 import {Login} from './Login';
 import {Order} from './Order';
+import {OrderAndUser} from './OrderAndUser';
 import {Registration} from './Registration';
 import {Role} from './Role';
 import {User} from './User';
@@ -12,5 +13,6 @@ export const typeDefs = [
     Registration,
     Order,
     User,
+    OrderAndUser,
     Event
 ];
