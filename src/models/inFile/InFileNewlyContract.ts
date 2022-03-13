@@ -1,6 +1,7 @@
 import {injectable} from 'inversify';
 import {readFromFile, writeToFile} from 'src/models/inFile/dbHelpers';
 import {Optional} from 'src/utils/typeUtils';
+import {v4 as uuid} from 'uuid';
 import {NewlyContract, NewlyContractType, OrderType, UserType} from '../interfaces';
 
 const DB_FILE_NAME = 'NewlyContract.json';
@@ -22,7 +23,7 @@ export class InFileNewlyContract implements NewlyContract {
     async createNewlyContract(contract: Optional<NewlyContractType, 'id'>): Promise<NewlyContractType> {
         const newlyContract = {
             ...contract,
-            id: `${this.contracts.length}`
+            id: uuid()
         };
         this.contracts.push(newlyContract);
         writeToFile(DB_FILE_NAME, JSON.stringify(this.contracts));
@@ -31,7 +32,7 @@ export class InFileNewlyContract implements NewlyContract {
     }
 
     async findNewlyContractByOrderId(orderId: OrderType['id']): Promise<NewlyContractType | undefined> {
-        return this.contracts.find((c) => c.order.id === orderId);
+        return this.contracts.find((c) => c.orderId === orderId);
     }
 
     updateNewlyContact(contract: NewlyContractType) {

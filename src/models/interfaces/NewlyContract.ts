@@ -4,7 +4,7 @@ import {Optional} from 'src/utils/typeUtils';
 
 export type NewlyContractType = {
     id: string
-    order: OrderType,
+    orderId: OrderType['id'],
     customerId: UserType['id'],
     potentialExecutorIds: UserType['id'][],
 }

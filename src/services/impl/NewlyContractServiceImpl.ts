@@ -1,16 +1,20 @@
 import {inject, injectable} from 'inversify';
 import {pull} from 'lodash';
 import {TYPES} from 'src/ioc';
-import {NewlyContract, NewlyContractType, OrderType, UserType} from 'src/models/interfaces';
+import {NewlyContract, NewlyContractType, Order, OrderType, UserType} from 'src/models/interfaces';
 import {NewlyContractService} from '../interfaces';
 
 @injectable()
 export class NewlyContractServiceImpl implements NewlyContractService {
 
     private newlyContract: NewlyContract;
+    private order: Order;
 
-    constructor(@inject(TYPES.NewlyContract) newlyContract: NewlyContract) {
+    constructor(
+        @inject(TYPES.NewlyContract) newlyContract: NewlyContract, @inject(TYPES.Order) order: Order
+    ) {
         this.newlyContract = newlyContract;
+        this.order = order;
     }
 
     async isExecutorEnrolledToOrder(orderId: string, executorId?: string): Promise<boolean> {
@@ -40,7 +44,7 @@ export class NewlyContractServiceImpl implements NewlyContractService {
 
     async createNewlyContract(order: OrderType, customerId: UserType['id']) {
         this.newlyContract.createNewlyContract({
-            order,
+            orderId: order.id,
             customerId,
             potentialExecutorIds: []
         });
@@ -51,7 +55,16 @@ export class NewlyContractServiceImpl implements NewlyContractService {
     }
 
     async getOrdersByCustomerId(customerId: UserType['id']): Promise<OrderType[]> {
-        return (await this.newlyContract.findAllNewlyContractsByCustomerId(customerId)).map(c => c.order);
+        return Promise.all((await this.newlyContract.findAllNewlyContractsByCustomerId(customerId)).map(async c => {
+            const order = await this.order.find({id: c.orderId});
+            if (!order) {
+                throw new Error(`No such order with id = ${c.orderId}`);
+            }
+
+            return order;
+        }
+        ));
+
     }
 
     async removePotentialExecutorToOrderId(orderId: OrderType['id'], executorId: UserType['id']) {

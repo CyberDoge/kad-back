@@ -33,7 +33,7 @@ export class EventServiceImpl implements EventOrderService, EventService {
             checked: false,
             title: 'На вашу заявку отозвался новый исполнитель',
             ownerId: newlyContract.customerId,
-            description: `Проверьте свою заявку ${newlyContract.order.title}`,
+            description: `Проверьте свою заявку с id ${newlyContract.orderId}`,
             type: 'orderEvent'
         });
     }
