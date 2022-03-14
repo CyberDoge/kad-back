@@ -37,10 +37,10 @@ export class UserServiceImpl implements UserService {
         return this.user.update(updatedUser);
     }
 
-    async getAllUserDataById(userId: string): Promise<UserType & Partial<UserDetailType & UserCompetenceType>> {
+    async getAllUserDataById(userId: string): Promise<UserType & Partial<UserDetailType & UserCompetenceType> | null> {
         const user = await this.findUserById(userId);
         if (!user) {
-            throw new Error(`User with id = ${userId} is not found`);
+            return null;
         }
         const userDetails = await this.userDetail.findByUserId(userId);
         const competence = await this.userCompetence.getUserCompetenceByUserId(userId);

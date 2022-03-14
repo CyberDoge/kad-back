@@ -28,7 +28,7 @@ export const Order = gql`
         dateTo: Float,
     }
     type Query {
-        orders(filter: OrderFilter): [Order]
+        orders(filter: OrderFilter!): [Order]
         order(orderId: String): Order
         isOrderEnrolledByMe(orderId: String): Boolean
         myCreatedOrders: [Order]

@@ -13,16 +13,8 @@ export class LoginServiceImpl implements LoginService {
         this.user = user;
     }
 
-    async validateCredentialsInput(loginCredentials: LoginCredentials): Promise<boolean> {
-        return !!(loginCredentials.email && loginCredentials.password);
-    }
-
 
     async login(loginCredentials: LoginCredentials): Promise<UserType> {
-        const isValid = await this.validateCredentialsInput(loginCredentials);
-        if (!isValid) {
-            throw new AuthenticationError('invalid credentials input');
-        }
         const user = await this.user.findByEmail(loginCredentials.email);
         if (!user || user.password !== loginCredentials.password) {
             throw new AuthenticationError('invalid credentials');

@@ -31,4 +31,4 @@ export const permissions = shield({
         enrollToOrder: isExecutor,
         unEnrollToOrder: isExecutor
     },
-});
+}, {allowExternalErrors: true});

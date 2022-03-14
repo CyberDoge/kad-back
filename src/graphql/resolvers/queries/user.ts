@@ -11,7 +11,10 @@ export const user = (userService: UserService) =>
                 throw new AuthenticationError('not authenticated');
             }
             const userData = await userService.getAllUserDataById(user.id);
-
+            if (!userData) {
+                throw new Error('пользователь с данным id не найден');
+            }
+            
             return mapUserDetailToCurrentUserResponse(userData);
         },
     });
