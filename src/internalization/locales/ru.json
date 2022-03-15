@@ -1,0 +1,6 @@
+{
+  "Not authorized": "Вы не вошли в систему",
+  "Not valid id of current user": "У текущего пользователя не валидный id",
+  "Invalid login credentials": "Не верный пароль",
+  "Forbidden role": "Ваша роль не имеет доступа к этому ресурсу"
+}
