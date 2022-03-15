@@ -31,4 +31,7 @@ export const permissions = shield({
         enrollToOrder: isExecutor,
         unEnrollToOrder: isExecutor
     },
-}, {allowExternalErrors: true});
+}, {
+    allowExternalErrors: true,
+    fallbackError: Error(internalization.translate('Not authorized'))
+});

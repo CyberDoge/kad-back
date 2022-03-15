@@ -1,8 +1,8 @@
 import {ForbiddenError} from 'apollo-server-express';
-import {NewlyContractService} from 'src/services/interfaces';
-import {OrderService} from 'src/services/interfaces/OrderService';
+import {internalization} from 'src/internalization';
+import {NewlyContractService, OrderService} from 'src/services/interfaces';
 import {Context} from 'src/types/Context';
-import {OrderFilter} from 'src/types/request/OrderFilter';
+import {OrderFilter} from 'src/types/request';
 
 
 export const order = (orderService: OrderService, newlyContractService: NewlyContractService) =>
@@ -15,7 +15,7 @@ export const order = (orderService: OrderService, newlyContractService: NewlyCon
         },
         myCreatedOrders: async (_, _1, {user}: Context) => {
             if (!user?.roles.includes('CUSTOMER')) {
-                throw new ForbiddenError('Forbidden role');
+                throw new ForbiddenError(internalization.translate('Forbidden role'));
             }
 
             return await newlyContractService.getOrdersByCustomerId(user.id);

@@ -12,7 +12,7 @@ export const user = (userService: UserService) =>
             }
             const userData = await userService.getAllUserDataById(user.id);
             if (!userData) {
-                throw new Error('пользователь с данным id не найден');
+                throw new Error(internalization.translate('Not valid id of current user'));
             }
             
             return mapUserDetailToCurrentUserResponse(userData);
