@@ -1,4 +1,5 @@
 import {allow, rule, shield} from 'graphql-shield';
+import {internalization} from 'src/internalization';
 import {Context} from 'src/types/Context';
 
 const isAuthenticated = rule()(async (_1, _2, ctx: Context) => {
@@ -16,8 +17,9 @@ const isExecutor = rule()(async (_1, _2, ctx: Context) => {
 
 export const permissions = shield({
     Query: {
-        '*': allow,
-        currentUser: isAuthenticated,
+        orders: allow,
+        order: allow,
+        '*': isAuthenticated,
         myCreatedOrders: isCustomer,
         orderExecutorsWorkExperience: isCustomer,
         isOrderEnrolledByMe: isExecutor,
@@ -25,9 +27,8 @@ export const permissions = shield({
     Mutation: {
         login: allow,
         registration: allow,
+        '*': isAuthenticated,
         createOrder: isCustomer,
-        updateCurrentUserDetails: isAuthenticated,
-        updateUserCompetence: isAuthenticated,
         enrollToOrder: isExecutor,
         unEnrollToOrder: isExecutor
     },
