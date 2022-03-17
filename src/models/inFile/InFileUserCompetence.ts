@@ -2,9 +2,10 @@ import {injectable} from 'inversify';
 import {remove} from 'lodash';
 import {v4 as uuid} from 'uuid';
 import {UserCompetence, UserCompetenceType, UserType} from '../interfaces';
-import {readFromFile, writeToFile} from './dbHelpers';
+import {helper} from './dbHelper';
 
 const DB_FILE_NAME = 'userCompetence.json';
+const h = helper(DB_FILE_NAME);
 
 @injectable()
 export class InFileUserCompetence implements UserCompetence {
@@ -12,11 +13,11 @@ export class InFileUserCompetence implements UserCompetence {
 
     constructor() {
         this.userCompetences = [];
-        readFromFile(DB_FILE_NAME).then(res => {
+        h.readFromFile().then(res => {
             this.userCompetences = res as UserCompetenceType[];
         }).catch(() => {
             this.userCompetences = [];
-            writeToFile(DB_FILE_NAME, JSON.stringify(this.userCompetences));
+            h.writeToFile(this.userCompetences);
         });
     }
 
@@ -26,7 +27,7 @@ export class InFileUserCompetence implements UserCompetence {
             ...userCompetence
         };
         this.userCompetences.push(newUserCompetence);
-        writeToFile(DB_FILE_NAME, JSON.stringify(this.userCompetences));
+        h.writeToFile(this.userCompetences);
 
         return newUserCompetence;
     }
@@ -46,7 +47,7 @@ export class InFileUserCompetence implements UserCompetence {
             ...userCompetence,
         };
         this.userCompetences.push(updated);
-        writeToFile(DB_FILE_NAME, JSON.stringify(this.userCompetences));
+        h.writeToFile(this.userCompetences);
 
         return updated;
     }

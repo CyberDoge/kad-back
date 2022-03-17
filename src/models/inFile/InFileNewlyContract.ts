@@ -1,10 +1,11 @@
 import {injectable} from 'inversify';
-import {readFromFile, writeToFile} from 'src/models/inFile/dbHelpers';
+import {helper} from 'src/models/inFile/dbHelper';
 import {Optional} from 'src/utils/typeUtils';
 import {v4 as uuid} from 'uuid';
 import {NewlyContract, NewlyContractType, OrderType, UserType} from '../interfaces';
 
 const DB_FILE_NAME = 'NewlyContract.json';
+const h = helper(DB_FILE_NAME);
 
 @injectable()
 export class InFileNewlyContract implements NewlyContract {
@@ -12,11 +13,11 @@ export class InFileNewlyContract implements NewlyContract {
 
     constructor() {
         this.contracts = [];
-        readFromFile(DB_FILE_NAME).then(res => {
+        h.readFromFile().then(res => {
             this.contracts = res as NewlyContractType[];
         }).catch(() => {
             this.contracts = [];
-            writeToFile(DB_FILE_NAME, JSON.stringify(this.contracts));
+            h.writeToFile(this.contracts);
         });
     }
 
@@ -26,7 +27,7 @@ export class InFileNewlyContract implements NewlyContract {
             id: uuid()
         };
         this.contracts.push(newlyContract);
-        writeToFile(DB_FILE_NAME, JSON.stringify(this.contracts));
+        h.writeToFile(this.contracts);
 
         return newlyContract;
     }
@@ -38,7 +39,7 @@ export class InFileNewlyContract implements NewlyContract {
     updateNewlyContact(contract: NewlyContractType) {
         const index = this.contracts.findIndex(contract => contract.id === contract.id);
         this.contracts[index] = contract;
-        writeToFile(DB_FILE_NAME, JSON.stringify(this.contracts));
+        h.writeToFile(this.contracts);
     }
 
     async findAllNewlyContractsByCustomerId(customerId: UserType['id']): Promise<NewlyContractType[]> {
