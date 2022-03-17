@@ -9,6 +9,7 @@ import {parsedConf} from 'src/configure';
 import {permissions} from 'src/configure/permissions';
 import {configureResolvers} from 'src/graphql/resolvers/configureResolvers';
 import {jwtMiddleWare} from 'src/helpers/jwtHelper';
+import {resolvedDependencies} from 'src/ioc/resolvedDependencies';
 import {typeDefs} from './graphql/typeDefs';
 
 async function startApolloServer(
@@ -45,6 +46,8 @@ async function startApolloServer(
     console.log(`Server ready at localhost:${parsedConf.APP_PORT}${server.graphqlPath}`);
 }
 
-const resolvers = configureResolvers();
+const dependencies = resolvedDependencies();
+
+const resolvers = configureResolvers(dependencies);
 
 export const startServer = () => startApolloServer(typeDefs, resolvers);

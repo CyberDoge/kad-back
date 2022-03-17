@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import {
     InFileNewlyContract,
     InFileOrder,
+    InFileRoom,
     InFileUser,
     InFileUserCompetence,
     InFileUserDetailData,
@@ -15,6 +16,7 @@ import {
     Order,
     PlatformEvent,
     Role,
+    Room,
     User,
     UserCompetence,
     UserDetail,
@@ -26,6 +28,7 @@ import {
     NewlyContractServiceImpl,
     OrderServiceImpl,
     RegistrationServiceImpl,
+    RoomServiceImpl,
     UserCompetenceServiceImpl,
     UserDetailServiceImpl,
     UserOperatingDataServiceImpl,
@@ -38,6 +41,7 @@ import {
     NewlyContractService,
     OrderService,
     RegistrationService,
+    RoomService,
     UserCompetenceService,
     UserDetailService,
     UserOperatingDataService,
@@ -57,6 +61,7 @@ container.bind<NewlyContract>(TYPES.NewlyContract).to(InFileNewlyContract).inSin
 container.bind<PlatformEvent>(TYPES.PlatformEvent).to(InMemoryPlatformEvent).inSingletonScope();
 container.bind<UserOperatingData>(TYPES.UserOperatingData).to(InFileUserOperatingData).inSingletonScope();
 container.bind<UserCompetence>(TYPES.UserCompetence).to(InFileUserCompetence).inSingletonScope();
+container.bind<Room>(TYPES.Room).to(InFileRoom).inSingletonScope();
 
 container.bind<RegistrationService>(TYPES.RegistrationService).to(RegistrationServiceImpl);
 container.bind<LoginService>(TYPES.LoginService).to(LoginServiceImpl);
@@ -68,6 +73,7 @@ container.bind<EventService>(TYPES.EventService).to(EventServiceImpl);
 container.bind<UserOperatingDataService>(TYPES.UserOperatingDataService).to(UserOperatingDataServiceImpl);
 container.bind<UserDetailService>(TYPES.UserDetailService).to(UserDetailServiceImpl);
 container.bind<UserCompetenceService>(TYPES.UserCompetenceService).to(UserCompetenceServiceImpl);
+container.bind<RoomService>(TYPES.RoomService).to(RoomServiceImpl);
 
 container.bind<OrderInteractor>(TYPES.OrderInteractor).to(OrderInteractorImpl);
 container.bind<UserInteractor>(TYPES.UserInteractor).to(UserInteractorImpl);
