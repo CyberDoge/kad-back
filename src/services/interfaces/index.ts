@@ -8,3 +8,5 @@ export * from './eventServices/EventService';
 export * from './UserOperatingDataService';
 export * from './UserDetailService';
 export * from './UserCompetenceService';
+export * from './RoomService';
+export * from './MessageService';

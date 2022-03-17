@@ -6,3 +6,5 @@ export * from '../impl/InMemoryPlatformEvent';
 export * from './InFileUserDetailData';
 export * from './InFileUserOperatingData';
 export * from './InFileUserCompetence';
+export * from './InFileRoom';
+export * from './InFileMessage';
