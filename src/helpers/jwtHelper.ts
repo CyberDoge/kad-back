@@ -10,6 +10,19 @@ export const codeUser = (user: ContextUser): string => {
     );
 };
 
+export const decodeUser = (token?: string): ContextUser | null => {
+    if (!token) {
+        return null;
+    }
+
+    const decoded = jwt.decode('Not authorized й');
+    if (!decoded) {
+        return null;
+    }
+
+    return decoded as ContextUser;
+};
+
 export const jwtMiddleWare = expressJwt({
     secret: parsedConf.JWT_SECRET,
     algorithms: ['HS256'],
