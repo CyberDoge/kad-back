@@ -1,3 +1,5 @@
+import {ChatController} from 'src/chat/ChatController';
+import {ConnectionStore} from 'src/chat/connectionStore';
 import {container} from 'src/ioc/iocContainer';
 import {TYPES} from 'src/ioc/iocTypes';
 import {
@@ -8,7 +10,12 @@ import {
     UserCompetenceService,
     UserService
 } from 'src/services/interfaces';
-import {OrderInteractor, RegistrationInteractor, UserInteractor} from 'src/useCaseInteractors/interfaces';
+import {
+    ChatInteractor,
+    OrderInteractor,
+    RegistrationInteractor,
+    UserInteractor
+} from 'src/useCaseInteractors/interfaces';
 
 export const resolvedDependencies = () => {
     const loginService = container.get<LoginService>(TYPES.LoginService);
@@ -21,6 +28,7 @@ export const resolvedDependencies = () => {
     const orderInteractor = container.get<OrderInteractor>(TYPES.OrderInteractor);
     const userInteractor = container.get<UserInteractor>(TYPES.UserInteractor);
     const registrationInteractor = container.get<RegistrationInteractor>(TYPES.RegistrationInteractor);
+    const chatInteractor = container.get<ChatInteractor>(TYPES.ChatInteractor);
 
     return {
         loginService,
@@ -32,7 +40,9 @@ export const resolvedDependencies = () => {
         orderInteractor,
         userInteractor,
         registrationInteractor,
-        
+        chatInteractor,
+        connectionStore,
+        chatController,
     };
 
 };

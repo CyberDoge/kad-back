@@ -26,5 +26,10 @@ export const TYPES = {
     OrderInteractor: Symbol.for('OrderInteractor'),
     UserInteractor: Symbol.for('UserInteractor'),
     RegistrationInteractor: Symbol.for('RegistrationInteractor'),
+    ChatInteractor: Symbol.for('ChatInteractor'),
+
+    ConnectionStore: Symbol.for('ConnectionStore'),
+    ChatEventEmitter: Symbol.for('ChatEventEmmitor'),
+    ChatController: Symbol.for('ChatController'),
 };
 

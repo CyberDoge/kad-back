@@ -5,6 +5,7 @@ import express from 'express';
 import {applyMiddleware} from 'graphql-middleware';
 import http from 'http';
 import morgan from 'morgan';
+import {startChat} from 'src/chat';
 import {parsedConf} from 'src/configure';
 import {permissions} from 'src/configure/permissions';
 import {configureResolvers} from 'src/graphql/resolvers/configureResolvers';
@@ -50,4 +51,7 @@ const dependencies = resolvedDependencies();
 
 const resolvers = configureResolvers(dependencies);
 
-export const startServer = () => startApolloServer(typeDefs, resolvers);
+export const startServer = () => {
+    startApolloServer(typeDefs, resolvers);
+    startChat(dependencies)
+}

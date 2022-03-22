@@ -1,3 +1,3 @@
 export const EVENT_TYPES = {
-    newMessage: Symbol('NEW_MESSAGE')
+    sendMessageForUsers: Symbol('SEND_MESSAGE_FOR_USERS')
 };

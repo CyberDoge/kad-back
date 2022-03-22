@@ -7,7 +7,7 @@
   "license": "ISC",
   "homepage": "https://github.com/CyberDoge/kad-back#readme",
   "scripts": {
-    "develop": "nodemon ts-node src/index.ts",
+    "develop": " ts-node src/index.ts",
     "test": "echo 'no test'",
     "build": "tsc --build",
     "start:prod": "node dist/index.js",
@@ -40,6 +40,7 @@
     "module-alias": "^2.2.2",
     "mongoose": "^6.1.7",
     "morgan": "^1.10.0",
+    "query-string": "^7.1.1",
     "reflect-metadata": "^0.1.13",
     "types": "^0.1.1",
     "uuid": "^8.3.2",
