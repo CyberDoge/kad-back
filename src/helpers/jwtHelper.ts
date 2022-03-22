@@ -15,7 +15,7 @@ export const decodeUser = (token?: string): ContextUser | null => {
         return null;
     }
 
-    const decoded = jwt.decode('Not authorized й');
+    const decoded = jwt.decode(token);
     if (!decoded) {
         return null;
     }

@@ -4,6 +4,7 @@ import {ChatController, ChatControllerImpl} from 'src/chat/ChatController';
 import {ConnectionStore, ConnectionStoreController, ConnectionStoreControllerImpl} from 'src/chat/connectionStore';
 import {ChatEventEmitter, ChatEventEmitterImpl} from 'src/chat/eventEmitter';
 import {
+    InFileMessage,
     InFileNewlyContract,
     InFileOrder,
     InFileRoom,
@@ -15,6 +16,7 @@ import {
     InMemoryRole
 } from 'src/models/inFile';
 import {
+    Message,
     NewlyContract,
     Order,
     PlatformEvent,
@@ -28,6 +30,7 @@ import {
 import {
     EventServiceImpl,
     LoginServiceImpl,
+    MessageServiceImpl,
     NewlyContractServiceImpl,
     OrderServiceImpl,
     RegistrationServiceImpl,
@@ -41,6 +44,7 @@ import {
     EventOrderService,
     EventService,
     LoginService,
+    MessageService,
     NewlyContractService,
     OrderService,
     RegistrationService,
@@ -50,8 +54,18 @@ import {
     UserOperatingDataService,
     UserService
 } from 'src/services/interfaces';
-import {OrderInteractorImpl, RegistrationInteractorImpl, UserInteractorImpl} from 'src/useCaseInteractors/impl';
-import {OrderInteractor, RegistrationInteractor, UserInteractor} from 'src/useCaseInteractors/interfaces';
+import {
+    ChatInteractorImpl,
+    OrderInteractorImpl,
+    RegistrationInteractorImpl,
+    UserInteractorImpl
+} from 'src/useCaseInteractors/impl';
+import {
+    ChatInteractor,
+    OrderInteractor,
+    RegistrationInteractor,
+    UserInteractor
+} from 'src/useCaseInteractors/interfaces';
 import {TYPES} from './iocTypes';
 
 const container = new Container();
@@ -65,6 +79,7 @@ container.bind<PlatformEvent>(TYPES.PlatformEvent).to(InMemoryPlatformEvent).inS
 container.bind<UserOperatingData>(TYPES.UserOperatingData).to(InFileUserOperatingData).inSingletonScope();
 container.bind<UserCompetence>(TYPES.UserCompetence).to(InFileUserCompetence).inSingletonScope();
 container.bind<Room>(TYPES.Room).to(InFileRoom).inSingletonScope();
+container.bind<Message>(TYPES.Message).to(InFileMessage).inSingletonScope();
 
 container.bind<RegistrationService>(TYPES.RegistrationService).to(RegistrationServiceImpl);
 container.bind<LoginService>(TYPES.LoginService).to(LoginServiceImpl);
@@ -77,6 +92,7 @@ container.bind<UserOperatingDataService>(TYPES.UserOperatingDataService).to(User
 container.bind<UserDetailService>(TYPES.UserDetailService).to(UserDetailServiceImpl);
 container.bind<UserCompetenceService>(TYPES.UserCompetenceService).to(UserCompetenceServiceImpl);
 container.bind<RoomService>(TYPES.RoomService).to(RoomServiceImpl);
+container.bind<MessageService>(TYPES.MessageService).to(MessageServiceImpl);
 
 container.bind<OrderInteractor>(TYPES.OrderInteractor).to(OrderInteractorImpl);
 container.bind<UserInteractor>(TYPES.UserInteractor).to(UserInteractorImpl);

@@ -8,3 +8,4 @@ export * from './UserDetailServiceImpl';
 export * from './UserServiceImpl';
 export * from './UserCompetenceServiceImpl';
 export * from './RoomServiceImpl';
+export * from './MessageServiceImpl';

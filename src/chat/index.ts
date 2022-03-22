@@ -1,23 +1,39 @@
+import queryString from 'query-string';
 import {decodeUser} from 'src/helpers/jwtHelper';
 import {internalization} from 'src/internalization';
-import {MessageRequest} from 'src/types/request';
-import {ChatInteractor} from 'src/useCaseInteractors/interfaces';
+import {resolvedDependencies} from 'src/ioc/resolvedDependencies';
+import {isChatMessageRequest} from 'src/utils/typeChecker';
 import {WebSocketServer} from 'ws';
-import {EVENT_TYPES} from './eventTypes';
 
-export const startChat = () => {
+export const startChat = ({connectionStore, chatController}: ReturnType<typeof resolvedDependencies>) => {
     const wss = new WebSocketServer({port: 8080});
-    const chatInteractor!: ChatInteractor;
+
     wss.on('connection', (socket, req) => {
-        const user = decodeUser(req.headers.authorization);
+        const params = queryString.parse(req.url?.split('/')[1] || '');
+        const user = typeof params.token === 'string' ? decodeUser(params.token) : null;
+
         if (!user) {
             socket.send(internalization.translate('Not authorized'));
-            socket.close(401);
+            socket.close();
 
             return;
         }
-        socket.on(EVENT_TYPES.newMessage, (message: MessageRequest) => {
-            chatInteractor.receiveMessage({...message, ownerId: user.id});
+        connectionStore.addConnection(user.id, socket);
+
+        socket.on('message', (data) => {
+            try {
+                if (!Buffer.isBuffer(data)) {
+                    return;
+                }
+
+                const request = JSON.parse(data.toString('utf-8'));
+                if (!request?.route || !isChatMessageRequest(request?.message)) {
+                    return;
+                }
+                chatController.receiveMessage(request.route, request.message, user);
+            }catch (e) {
+                console.log(e);
+            }
         });
     });
 };

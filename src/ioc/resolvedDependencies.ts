@@ -25,6 +25,9 @@ export const resolvedDependencies = () => {
     const eventService = container.get<EventService>(TYPES.EventService);
     const userCompetenceService = container.get<UserCompetenceService>(TYPES.UserCompetenceService);
 
+    const connectionStore = container.get<ConnectionStore>(TYPES.ConnectionStore);
+    const chatController = container.get<ChatController>(TYPES.ChatController);
+
     const orderInteractor = container.get<OrderInteractor>(TYPES.OrderInteractor);
     const userInteractor = container.get<UserInteractor>(TYPES.UserInteractor);
     const registrationInteractor = container.get<RegistrationInteractor>(TYPES.RegistrationInteractor);
