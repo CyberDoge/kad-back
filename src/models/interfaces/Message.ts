@@ -15,4 +15,8 @@ export interface Message {
     create(message: Omit<MessageType, 'id'>): Promise<MessageType>;
 
     getMessagesByIds(messageIds: MessageType['id'][]): Promise<MessageType[]>;
+
+    getMessagesByIds(messageIds: MessageType['id'][]): Promise<MessageType[]>;
+
+    getNMessagesByRoomId(roomId: MessageType["roomId"], count: number, from: number): Promise<MessageType[]>;
 }

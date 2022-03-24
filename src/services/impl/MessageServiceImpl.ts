@@ -17,4 +17,8 @@ export class MessageServiceImpl implements MessageService {
         return this.message.create(message);
     }
 
+    getNMessagesByRoomId(roomId: MessageType['roomId'], count: number, from: number): Promise<MessageType[]> {
+        return this.message.getNMessagesByRoomId(roomId);
+    }
+
 }

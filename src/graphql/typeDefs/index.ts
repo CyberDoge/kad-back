@@ -1,3 +1,4 @@
+import {Room} from 'src/graphql/typeDefs/Room';
 import {Event} from './Event';
 import {Login} from './Login';
 import {Order} from './Order';
@@ -14,5 +15,6 @@ export const typeDefs = [
     Order,
     User,
     OrderAndUser,
-    Event
+    Event,
+    Room,
 ];

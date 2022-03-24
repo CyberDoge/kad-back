@@ -3,13 +3,15 @@ import {
     login,
     order as orderMutations,
     registration,
+    room as roomMutation,
     user as userMutation
 } from 'src/graphql/resolvers/mutations';
 import {
     event as eventQueries,
     order as orderQueries,
     orderAndUser,
-    user as userQueries
+    user as userQueries,
+    room as roomQueries,
 } from 'src/graphql/resolvers/queries';
 import {resolvedDependencies} from 'src/ioc/resolvedDependencies';
 
@@ -23,6 +25,7 @@ export const configureResolvers = ({
     orderInteractor,
     userInteractor,
     registrationInteractor,
+    roomService,
 }: ReturnType<typeof resolvedDependencies>
 ) => {
     return {
@@ -31,13 +34,15 @@ export const configureResolvers = ({
             registration: registration(registrationInteractor),
             ...orderMutations(orderInteractor),
             ...userMutation(userInteractor),
-            ...eventMutation(eventService)
+            ...eventMutation(eventService),
+            ...roomMutation(roomService, userCompetenceService),
         },
         Query: {
             ...orderQueries(orderService, newlyContractService),
             ...userQueries(userService),
             ...eventQueries(eventService),
-            ...orderAndUser(newlyContractService, userCompetenceService)
+            ...orderAndUser(newlyContractService, userCompetenceService),
+            ...roomQueries(roomService)
         }
     };
 };

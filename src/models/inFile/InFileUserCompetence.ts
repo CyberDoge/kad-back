@@ -52,5 +52,9 @@ export class InFileUserCompetence implements UserCompetence {
         return updated;
     }
 
+    async getCompetenceById(id: UserCompetenceType['id']): Promise<UserCompetenceType | undefined> {
+        return this.userCompetences.find((comp) => comp.id === id);
+    }
+
 
 }

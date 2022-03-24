@@ -1,8 +1,9 @@
 import {COMMON_ORDERS_ARRAY_LENGTH} from 'src/consts';
-import {OrderFilterType, UserCompetenceType, UserDetailType, UserType} from 'src/models/interfaces';
+import {OrderFilterType, RoomType, UserCompetenceType, UserDetailType, UserType} from 'src/models/interfaces';
 import {ContextUser} from 'src/types/ContextUser';
 import {OrderFilter, UserDetailsRequest} from 'src/types/request';
 import {CurrentUserResponse} from 'src/types/response';
+import {RoomResponse} from 'src/types/response/RoomResponse';
 
 export function mapUserDetailToCurrentUserResponse(user: Partial<UserDetailType & UserCompetenceType> & UserType)
     : CurrentUserResponse {
@@ -64,6 +65,4 @@ export const mapOrderFilterRequestToOrderFilterType = (filter?: OrderFilter): Or
         dateFrom: filter.dateFrom ? new Date(filter.dateFrom) : undefined,
         dateTo: filter.dateTo ? new Date(filter.dateTo) : undefined,
     };
-
-
 };

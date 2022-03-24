@@ -1,4 +1,4 @@
-import {MessageType, UserType} from 'src/models/interfaces';
+import {MessageType, RoomType, UserType} from 'src/models/interfaces';
 
 export type Message = {
     text: MessageType['text'],
@@ -7,6 +7,8 @@ export type Message = {
 }
 
 export interface ChatInteractor {
+    getTenMessagesInRoom(roomId: RoomType["id"], from: number): MessageType[]
+
     receiveMessageAndBroadcastToRoom(message: Message);
 
     markMessageAsRead(messageId: MessageType['id'], userId: UserType['id']);

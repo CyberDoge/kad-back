@@ -7,4 +7,6 @@ export interface UserCompetenceService {
 
     getUserCompetenceByUserId(userId: UserType['id']): Promise<UserCompetenceType | undefined>;
 
+    getCompetenceById(id: UserCompetenceType['id']): Promise<UserCompetenceType | undefined>
+
 }

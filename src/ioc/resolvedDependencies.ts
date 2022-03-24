@@ -6,7 +6,7 @@ import {
     EventService,
     LoginService,
     NewlyContractService,
-    OrderService,
+    OrderService, RoomService,
     UserCompetenceService,
     UserService
 } from 'src/services/interfaces';
@@ -24,6 +24,7 @@ export const resolvedDependencies = () => {
     const newlyContractService = container.get<NewlyContractService>(TYPES.NewlyContractService);
     const eventService = container.get<EventService>(TYPES.EventService);
     const userCompetenceService = container.get<UserCompetenceService>(TYPES.UserCompetenceService);
+    const roomService = container.get<RoomService>(TYPES.RoomService);
 
     const connectionStore = container.get<ConnectionStore>(TYPES.ConnectionStore);
     const chatController = container.get<ChatController>(TYPES.ChatController);
@@ -46,6 +47,7 @@ export const resolvedDependencies = () => {
         chatInteractor,
         connectionStore,
         chatController,
+        roomService,
     };
 
 };

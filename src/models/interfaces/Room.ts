@@ -5,7 +5,7 @@ export type RoomType = {
     id: string;
     ownerId: UserType['id'];
     members: UserType['id'][];
-    messageIds: MessageType[];
+    messageIds: MessageType['id'][];
 }
 
 export interface Room {

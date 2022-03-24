@@ -19,7 +19,7 @@ export class RoomServiceImpl implements RoomService {
         });
     }
 
-    getLastTenRoomsByUserId(userId: UserType['id'], from: number) {
+    getTenRoomsByUserId(userId: UserType['id'], from: number) {
         return this.room.getNRoomsByUserId(userId, from, 10);
     }
 
