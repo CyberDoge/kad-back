@@ -27,4 +27,8 @@ export class UserCompetenceServiceImpl implements UserCompetenceService {
         this.userCompetence.updateByUserId(userId, userCompetence);
     }
 
+    getCompetenceById(id: UserCompetenceType["id"]): Promise<UserCompetenceType | undefined> {
+        return this.userCompetence.getCompetenceById(id);
+    }
+
 }

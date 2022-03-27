@@ -5,10 +5,12 @@ import express from 'express';
 import {applyMiddleware} from 'graphql-middleware';
 import http from 'http';
 import morgan from 'morgan';
+import {startChat} from 'src/chat';
 import {parsedConf} from 'src/configure';
 import {permissions} from 'src/configure/permissions';
 import {configureResolvers} from 'src/graphql/resolvers/configureResolvers';
 import {jwtMiddleWare} from 'src/helpers/jwtHelper';
+import {resolvedDependencies} from 'src/ioc/resolvedDependencies';
 import {typeDefs} from './graphql/typeDefs';
 
 async function startApolloServer(
@@ -45,6 +47,11 @@ async function startApolloServer(
     console.log(`Server ready at localhost:${parsedConf.APP_PORT}${server.graphqlPath}`);
 }
 
-const resolvers = configureResolvers();
+const dependencies = resolvedDependencies();
 
-export const startServer = () => startApolloServer(typeDefs, resolvers);
+const resolvers = configureResolvers(dependencies);
+
+export const startServer = () => {
+    startApolloServer(typeDefs, resolvers);
+    startChat(dependencies)
+}

@@ -1,8 +1,12 @@
 import {Container} from 'inversify';
 import 'reflect-metadata';
+import {ConnectionStore, ConnectionStoreController, ConnectionStoreControllerImpl} from 'src/chat/connectionStore';
+import {ChatEventEmitter, ChatEventEmitterImpl} from 'src/chat/eventEmitter';
 import {
+    InFileMessage,
     InFileNewlyContract,
     InFileOrder,
+    InFileRoom,
     InFileUser,
     InFileUserCompetence,
     InFileUserDetailData,
@@ -11,10 +15,12 @@ import {
     InMemoryRole
 } from 'src/models/inFile';
 import {
+    Message,
     NewlyContract,
     Order,
     PlatformEvent,
     Role,
+    Room,
     User,
     UserCompetence,
     UserDetail,
@@ -23,9 +29,11 @@ import {
 import {
     EventServiceImpl,
     LoginServiceImpl,
+    MessageServiceImpl,
     NewlyContractServiceImpl,
     OrderServiceImpl,
     RegistrationServiceImpl,
+    RoomServiceImpl,
     UserCompetenceServiceImpl,
     UserDetailServiceImpl,
     UserOperatingDataServiceImpl,
@@ -35,16 +43,28 @@ import {
     EventOrderService,
     EventService,
     LoginService,
+    MessageService,
     NewlyContractService,
     OrderService,
     RegistrationService,
+    RoomService,
     UserCompetenceService,
     UserDetailService,
     UserOperatingDataService,
     UserService
 } from 'src/services/interfaces';
-import {OrderInteractorImpl, RegistrationInteractorImpl, UserInteractorImpl} from 'src/useCaseInteractors/impl';
-import {OrderInteractor, RegistrationInteractor, UserInteractor} from 'src/useCaseInteractors/interfaces';
+import {
+    ChatInteractorImpl,
+    OrderInteractorImpl,
+    RegistrationInteractorImpl,
+    UserInteractorImpl
+} from 'src/useCaseInteractors/impl';
+import {
+    ChatInteractor,
+    OrderInteractor,
+    RegistrationInteractor,
+    UserInteractor
+} from 'src/useCaseInteractors/interfaces';
 import {TYPES} from './iocTypes';
 
 const container = new Container();
@@ -57,6 +77,8 @@ container.bind<NewlyContract>(TYPES.NewlyContract).to(InFileNewlyContract).inSin
 container.bind<PlatformEvent>(TYPES.PlatformEvent).to(InMemoryPlatformEvent).inSingletonScope();
 container.bind<UserOperatingData>(TYPES.UserOperatingData).to(InFileUserOperatingData).inSingletonScope();
 container.bind<UserCompetence>(TYPES.UserCompetence).to(InFileUserCompetence).inSingletonScope();
+container.bind<Room>(TYPES.Room).to(InFileRoom).inSingletonScope();
+container.bind<Message>(TYPES.Message).to(InFileMessage).inSingletonScope();
 
 container.bind<RegistrationService>(TYPES.RegistrationService).to(RegistrationServiceImpl);
 container.bind<LoginService>(TYPES.LoginService).to(LoginServiceImpl);
@@ -68,10 +90,17 @@ container.bind<EventService>(TYPES.EventService).to(EventServiceImpl);
 container.bind<UserOperatingDataService>(TYPES.UserOperatingDataService).to(UserOperatingDataServiceImpl);
 container.bind<UserDetailService>(TYPES.UserDetailService).to(UserDetailServiceImpl);
 container.bind<UserCompetenceService>(TYPES.UserCompetenceService).to(UserCompetenceServiceImpl);
+container.bind<RoomService>(TYPES.RoomService).to(RoomServiceImpl);
+container.bind<MessageService>(TYPES.MessageService).to(MessageServiceImpl);
 
 container.bind<OrderInteractor>(TYPES.OrderInteractor).to(OrderInteractorImpl);
 container.bind<UserInteractor>(TYPES.UserInteractor).to(UserInteractorImpl);
 container.bind<RegistrationInteractor>(TYPES.RegistrationInteractor).to(RegistrationInteractorImpl);
+container.bind<ChatInteractor>(TYPES.ChatInteractor).to(ChatInteractorImpl);
+
+container.bind<ChatEventEmitter>(TYPES.ChatEventEmitter).to(ChatEventEmitterImpl).inSingletonScope();
+container.bind<ConnectionStore & ConnectionStoreController>(TYPES.ConnectionStore)
+    .to(ConnectionStoreControllerImpl).inSingletonScope();
 
 
 export {container};

@@ -1,4 +1,4 @@
-import {CurrentUserResponse} from 'src/types/response/CurrentUserResponse';
+import {CurrentUserResponse} from './CurrentUserResponse';
 
 export type OrderExecutorsWorkExperienceResponse = {
     workExperienceArray: CurrentUserResponse['workExperienceArray']

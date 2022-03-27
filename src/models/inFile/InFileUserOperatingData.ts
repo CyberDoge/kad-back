@@ -1,10 +1,11 @@
 import {injectable} from 'inversify';
 import {remove, sortedUniq} from 'lodash';
+import {helper} from 'src/models/inFile/dbHelper';
 import {v4 as uuid} from 'uuid';
 import {OrderType, UserOperatingData, UserOperatingDataType, UserType} from '../interfaces';
-import {readFromFile, writeToFile} from './dbHelpers';
 
 const DB_FILE_NAME = 'UserOperatingData.json';
+const h = helper(DB_FILE_NAME);
 
 @injectable()
 export class InFileUserOperatingData implements UserOperatingData {
@@ -12,11 +13,11 @@ export class InFileUserOperatingData implements UserOperatingData {
 
     constructor() {
         this.operatingData = [];
-        readFromFile(DB_FILE_NAME).then(res => {
+        h.readFromFile().then(res => {
             this.operatingData = res as UserOperatingDataType[];
         }).catch(() => {
             this.operatingData = [];
-            writeToFile(DB_FILE_NAME, JSON.stringify(this.operatingData));
+            h.writeToFile(this.operatingData);
         });
     }
 
@@ -27,7 +28,7 @@ export class InFileUserOperatingData implements UserOperatingData {
         }
         data.favoriteOrderIds.push(orderId);
         sortedUniq(data.favoriteOrderIds);
-        writeToFile(DB_FILE_NAME, JSON.stringify(this.operatingData));
+        h.writeToFile(this.operatingData);
     }
 
     removeFavoriteOrderByUserId(userId: UserType['id'], orderId: OrderType['id']) {
@@ -36,7 +37,7 @@ export class InFileUserOperatingData implements UserOperatingData {
             throw new Error(`No such UserOperatingData with userId = ${userId}`);
         }
         remove(data.favoriteOrderIds, orderId);
-        writeToFile(DB_FILE_NAME, JSON.stringify(this.operatingData));
+        h.writeToFile(this.operatingData);
     }
 
     async create(userOperatingData: Omit<UserOperatingDataType, 'id'>): Promise<UserOperatingDataType> {
@@ -45,7 +46,7 @@ export class InFileUserOperatingData implements UserOperatingData {
             id: uuid()
         };
         this.operatingData.push(newOperationData);
-        writeToFile(DB_FILE_NAME, JSON.stringify(this.operatingData));
+        h.writeToFile(this.operatingData);
 
         return newOperationData;
     }

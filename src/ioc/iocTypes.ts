@@ -7,6 +7,8 @@ export const TYPES = {
     PlatformEvent: Symbol.for('PlatformEvent'),
     UserOperatingData: Symbol.for('UserOperatingData'),
     UserCompetence: Symbol.for('UserCompetence'),
+    Room: Symbol.for('Room'),
+    Message: Symbol.for('Message'),
 
     UserService: Symbol.for('UserService'),
     RegistrationService: Symbol.for('RegistrationService'),
@@ -18,9 +20,16 @@ export const TYPES = {
     UserDetailService: Symbol.for('UserDetailService'),
     UserCompetenceService: Symbol.for('UserCompetenceService'),
     UserOperatingDataService: Symbol.for('UserOperatingDataService'),
+    RoomService: Symbol.for('RoomService'),
+    MessageService: Symbol.for('MessageService'),
 
     OrderInteractor: Symbol.for('OrderInteractor'),
     UserInteractor: Symbol.for('UserInteractor'),
     RegistrationInteractor: Symbol.for('RegistrationInteractor'),
+    ChatInteractor: Symbol.for('ChatInteractor'),
+
+    ConnectionStore: Symbol.for('ConnectionStore'),
+    ChatEventEmitter: Symbol.for('ChatEventEmmitor'),
+    ChatController: Symbol.for('ChatController'),
 };
 

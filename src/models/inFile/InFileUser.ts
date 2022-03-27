@@ -2,9 +2,10 @@ import {injectable} from 'inversify';
 import {remove} from 'lodash';
 import {v4 as uuid} from 'uuid';
 import {User, UserType} from '../interfaces';
-import {readFromFile, writeToFile} from './dbHelpers';
+import {helper} from './dbHelper';
 
 const DB_FILE_NAME = 'user.json';
+const h = helper(DB_FILE_NAME);
 
 @injectable()
 export class InFileUser implements User {
@@ -13,18 +14,18 @@ export class InFileUser implements User {
 
     constructor() {
         this.users = [];
-        readFromFile(DB_FILE_NAME).then(res => {
+        h.readFromFile().then(res => {
             this.users = res as UserType[];
         }).catch(() => {
             this.users = [];
-            writeToFile(DB_FILE_NAME, JSON.stringify(this.users));
+            h.writeToFile(this.users);
         });
     }
 
     async save(user: UserType) {
         user.id = uuid();
         this.users.push(user);
-        writeToFile(DB_FILE_NAME, JSON.stringify(this.users));
+        h.writeToFile(this.users);
 
         return user;
 
@@ -41,7 +42,7 @@ export class InFileUser implements User {
     async update(user: UserType): Promise<UserType> {
         remove(this.users, (u) => u.id === user.id);
         this.users.push(user);
-        writeToFile(DB_FILE_NAME, JSON.stringify(this.users));
+        h.writeToFile(this.users);
 
         return user;
     }

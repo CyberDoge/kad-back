@@ -1,9 +1,10 @@
 import {injectable} from 'inversify';
 import {v4 as uuid} from 'uuid';
 import {UserDetail, UserDetailType, UserType} from '../interfaces';
-import {readFromFile, writeToFile} from './dbHelpers';
+import {helper} from './dbHelper';
 
 const DB_FILE_NAME = 'userDetailData.json';
+const h = helper(DB_FILE_NAME);
 
 @injectable()
 export class InFileUserDetailData implements UserDetail {
@@ -11,18 +12,18 @@ export class InFileUserDetailData implements UserDetail {
 
     constructor() {
         this.userDetailData = [];
-        readFromFile(DB_FILE_NAME).then(res => {
+        h.readFromFile().then(res => {
             this.userDetailData = res as UserDetailType[];
         }).catch(() => {
             this.userDetailData = [];
-            writeToFile(DB_FILE_NAME, JSON.stringify(this.userDetailData));
+            h.writeToFile(this.userDetailData);
         });
     }
 
     async create(userDetail: Omit<UserDetailType, 'id'>): Promise<UserDetailType> {
         const newUserDetail = {...userDetail, id: uuid()};
         this.userDetailData.push(newUserDetail);
-        writeToFile(DB_FILE_NAME, JSON.stringify(this.userDetailData));
+        h.writeToFile(this.userDetailData);
 
         return newUserDetail;
     }
@@ -39,7 +40,7 @@ export class InFileUserDetailData implements UserDetail {
         this.userDetailData[index] = {
             ...userDetail
         };
-        writeToFile(DB_FILE_NAME, JSON.stringify(this.userDetailData));
+        h.writeToFile(this.userDetailData);
 
         return this.userDetailData[index];
     }
