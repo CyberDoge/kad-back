@@ -12,4 +12,6 @@ export interface Room {
     create(room: Omit<RoomType, 'id'>): Promise<RoomType>;
 
     getNRoomsByUserId(userId: UserType['id'], from: number, count: number): Promise<RoomType[]>;
+
+    findRoomById(id: RoomType['id']): Promise<RoomType | undefined>;
 }

@@ -1,14 +1,11 @@
 import {inject, injectable} from 'inversify';
 import {TYPES} from 'src/ioc';
-import {Room, UserType} from 'src/models/interfaces';
+import {Room, RoomType, UserType} from 'src/models/interfaces';
 import {RoomService} from '../interfaces';
 
 @injectable()
 export class RoomServiceImpl implements RoomService {
-    private room: Room;
-
-    constructor(@inject(TYPES.Room) room: Room) {
-        this.room = room;
+    constructor(@inject(TYPES.Room) private room: Room) {
     }
 
     async createRoom(ownerId: UserType['id'], members: UserType['id'][]) {
@@ -21,6 +18,15 @@ export class RoomServiceImpl implements RoomService {
 
     getTenRoomsByUserId(userId: UserType['id'], from: number) {
         return this.room.getNRoomsByUserId(userId, from, 10);
+    }
+
+    async isUserInRoom(userId: UserType['id'], roomId: RoomType['id']) {
+        const room = await this.room.findRoomById(roomId);
+        if (!room) {
+            return false;
+        }
+        
+        return room.members.includes(userId);
     }
 
 }

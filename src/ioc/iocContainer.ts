@@ -1,6 +1,5 @@
 import {Container} from 'inversify';
 import 'reflect-metadata';
-import {ChatController, ChatControllerImpl} from 'src/chat/ChatController';
 import {ConnectionStore, ConnectionStoreController, ConnectionStoreControllerImpl} from 'src/chat/connectionStore';
 import {ChatEventEmitter, ChatEventEmitterImpl} from 'src/chat/eventEmitter';
 import {
@@ -102,7 +101,6 @@ container.bind<ChatInteractor>(TYPES.ChatInteractor).to(ChatInteractorImpl);
 container.bind<ChatEventEmitter>(TYPES.ChatEventEmitter).to(ChatEventEmitterImpl).inSingletonScope();
 container.bind<ConnectionStore & ConnectionStoreController>(TYPES.ConnectionStore)
     .to(ConnectionStoreControllerImpl).inSingletonScope();
-container.bind<ChatController>(TYPES.ChatController).to(ChatControllerImpl);
 
 
 export {container};

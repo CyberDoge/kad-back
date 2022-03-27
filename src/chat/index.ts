@@ -2,12 +2,21 @@ import queryString from 'query-string';
 import {decodeUser} from 'src/helpers/jwtHelper';
 import {internalization} from 'src/internalization';
 import {resolvedDependencies} from 'src/ioc/resolvedDependencies';
-import {isChatMessageRequest} from 'src/utils/typeChecker';
+import {ChatRequest} from 'src/types/request';
+import {isChatRequest} from 'src/utils/typeChecker';
 import {WebSocketServer} from 'ws';
+import chatController from './chatController';
 
-export const startChat = ({connectionStore, chatController}: ReturnType<typeof resolvedDependencies>) => {
+export const startChat = ({
+    connectionStore,
+    connectionStoreController,
+    chatInteractor,
+    chatEventEmitter
+}: ReturnType<typeof resolvedDependencies>) => {
     const wss = new WebSocketServer({port: 8080});
-
+    const controller = chatController(
+        connectionStoreController, chatInteractor, chatEventEmitter
+    );
     wss.on('connection', (socket, req) => {
         const params = queryString.parse(req.url?.split('/')[1] || '');
         const user = typeof params.token === 'string' ? decodeUser(params.token) : null;
@@ -26,12 +35,14 @@ export const startChat = ({connectionStore, chatController}: ReturnType<typeof r
                     return;
                 }
 
-                const request = JSON.parse(data.toString('utf-8'));
-                if (!request?.route || !isChatMessageRequest(request?.message)) {
+                const request = JSON.parse(data.toString('utf-8')) as ChatRequest;
+                if (!isChatRequest(request)) {
                     return;
                 }
-                chatController.receiveMessage(request.route, request.message, user);
-            }catch (e) {
+                // todo normal schema validator
+                controller[request.route.path](request.route, request.data as any, user);
+            } catch (e) {
+                connectionStore.closeConnectionByKey(user.id);
                 console.log(e);
             }
         });

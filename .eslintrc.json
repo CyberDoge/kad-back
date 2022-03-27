@@ -41,7 +41,6 @@
     ],
     "prefer-template": "error",
     "prefer-destructuring": "error",
-    "import/no-default-export": "error",
     "max-len": [
       "error",
       {

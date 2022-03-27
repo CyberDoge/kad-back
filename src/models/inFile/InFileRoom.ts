@@ -34,4 +34,8 @@ export class InFileRoom implements Room {
     async getNRoomsByUserId(userId: UserType['id'], from: number, count: number): Promise<RoomType[]> {
         return this.rooms.filter(c => c.members.includes(userId)).slice(from, from + count);
     }
+
+    async findRoomById(id: RoomType['id']): Promise<RoomType | undefined> {
+        return this.rooms.find(room => room.id === id);
+    }
 }

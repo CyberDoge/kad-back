@@ -7,9 +7,9 @@ export type Message = {
 }
 
 export interface ChatInteractor {
-    getTenMessagesInRoom(roomId: RoomType["id"], from: number): MessageType[]
+    getTenMessagesInRoom(userId: UserType['id'], roomId: RoomType['id'], from: number): Promise<MessageType[]>;
 
-    receiveMessageAndBroadcastToRoom(message: Message);
+    receiveMessage(message: Message): Promise<MessageType>;
 
     markMessageAsRead(messageId: MessageType['id'], userId: UserType['id']);
 }

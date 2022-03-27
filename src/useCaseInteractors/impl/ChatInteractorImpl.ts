@@ -1,6 +1,5 @@
 import {inject, injectable} from 'inversify';
 import {ChatEventEmitter} from 'src/chat/eventEmitter/ChatEventEmitter';
-import {EVENT_TYPES} from 'src/chat/eventTypes';
 import {TYPES} from 'src/ioc';
 import {MessageType, RoomType, UserType} from 'src/models/interfaces';
 import {MessageService, RoomService} from 'src/services/interfaces';
@@ -8,31 +7,27 @@ import {ChatInteractor, Message} from 'src/useCaseInteractors/interfaces';
 
 @injectable()
 export class ChatInteractorImpl implements ChatInteractor {
-    private messageService: MessageService;
-    private roomService: RoomService;
-    private chatEventEmmitor: ChatEventEmitter;
-
     constructor(
-        @inject(TYPES.MessageService) messageService: MessageService,
-        @inject(TYPES.RoomService) roomService: RoomService,
-        @inject(TYPES.ChatEventEmitter) chatEventEmmitor: ChatEventEmitter
+        @inject(TYPES.MessageService) private messageService: MessageService,
+        @inject(TYPES.RoomService) private roomService: RoomService,
+        @inject(TYPES.ChatEventEmitter) private chatEventEmmitor: ChatEventEmitter
     ) {
-        this.messageService = messageService;
-        this.roomService = roomService;
-        this.chatEventEmmitor = chatEventEmmitor;
     }
 
     markMessageAsRead(messageId: MessageType['id'], userId: UserType['id']) {
         throw new Error('not implemented');
     }
 
-    receiveMessageAndBroadcastToRoom(message: Message) {
-        this.messageService.saveMessage({...message, hidden: false, dateOfCreating: new Date(), readBy: [],});
-        this.chatEventEmmitor.emmit(EVENT_TYPES.sendMessageForUsers, message);
+    receiveMessage(message: Message) {
+        return this.messageService.saveMessage({...message, hidden: false, dateOfCreating: new Date(), readBy: [],});
     }
 
-    getTenMessagesInRoom(roomId: RoomType['id'], from: number): MessageType[] {
-        this.messageService.getNMessagesByRoomId(roomId, from, )
+    async getTenMessagesInRoom(userId: UserType['id'], roomId: RoomType['id'], from: number): Promise<MessageType[]> {
+        if (await this.roomService.isUserInRoom(userId, roomId)) {
+            return this.messageService.getNMessagesByRoomId(roomId, from, 10);
+        }
+
+        return [];
     }
 
 }

@@ -20,8 +20,8 @@ export class InFileMessage implements Message {
         });
     }
 
-    async getNMessagesByRoomId(roomId: MessageType['roomId'], count: number, from: number): Promise<MessageType[]> {
-        return this.messages.filter(m=>m.roomId === roomId).slice(from, from + count)
+    async getNMessagesByRoomId(roomId: MessageType['roomId'], from: number, count: number,): Promise<MessageType[]> {
+        return this.messages.filter(m => m.roomId === roomId).slice(from, from + count);
     }
 
     async create(message: Omit<MessageType, 'id'>): Promise<MessageType> {

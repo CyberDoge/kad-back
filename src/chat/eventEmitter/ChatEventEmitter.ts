@@ -1,7 +1,15 @@
-import {EVENT_TYPES} from 'src/chat/eventTypes';
+import {MessageResponse} from 'src/types/response';
+import {Route} from '../route';
+
+export type Events = {
+    sendNewMessageToUsers: [userIds: string[], message: MessageResponse],
+    sendOldMessagesToUser: [route: Route, userId: string, messages: MessageResponse[]]
+}
 
 export interface ChatEventEmitter {
-    emmit<P>(event: typeof EVENT_TYPES[keyof typeof EVENT_TYPES], payload: P, ...rest);
+    emmit<EVENT extends keyof Events>(event: EVENT, ...args: Events[EVENT]);
 
-    setEventListener<P>(event: typeof EVENT_TYPES[keyof typeof EVENT_TYPES], listener: (payload: P, ...rest) => void);
+    setEventListener<EVENT extends keyof Events>(
+        event: EVENT, listener: (...args: Events[EVENT]) => void
+    );
 }

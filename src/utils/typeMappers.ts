@@ -1,9 +1,8 @@
 import {COMMON_ORDERS_ARRAY_LENGTH} from 'src/consts';
-import {OrderFilterType, RoomType, UserCompetenceType, UserDetailType, UserType} from 'src/models/interfaces';
+import {MessageType, OrderFilterType, UserCompetenceType, UserDetailType, UserType} from 'src/models/interfaces';
 import {ContextUser} from 'src/types/ContextUser';
 import {OrderFilter, UserDetailsRequest} from 'src/types/request';
-import {CurrentUserResponse} from 'src/types/response';
-import {RoomResponse} from 'src/types/response/RoomResponse';
+import {CurrentUserResponse, MessageResponse} from 'src/types/response';
 
 export function mapUserDetailToCurrentUserResponse(user: Partial<UserDetailType & UserCompetenceType> & UserType)
     : CurrentUserResponse {
@@ -66,3 +65,12 @@ export const mapOrderFilterRequestToOrderFilterType = (filter?: OrderFilter): Or
         dateTo: filter.dateTo ? new Date(filter.dateTo) : undefined,
     };
 };
+
+export function mapMessageTypeToMessageResponse(message: MessageType): MessageResponse {
+    return {
+        id: message.id,
+        ownerId: message.ownerId,
+        roomId: message.roomId,
+        text: message.text
+    };
+}

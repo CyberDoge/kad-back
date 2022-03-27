@@ -2,26 +2,25 @@ import {EventEmitter} from 'events';
 import {inject, injectable} from 'inversify';
 import {TYPES} from 'src/ioc';
 import {ConnectionStoreController} from '../connectionStore';
-import {EVENT_TYPES} from '../eventTypes';
-import {ChatEventEmitter} from './';
+import {ChatEventEmitter, Events} from './ChatEventEmitter';
 
 @injectable()
 export class ChatEventEmitterImpl implements ChatEventEmitter {
-    private eventEmmitor: EventEmitter;
+    private eventEmitter: EventEmitter;
 
     constructor(
         @inject(TYPES.ConnectionStore) private connectionStoreController: ConnectionStoreController,
     ) {
-        this.eventEmmitor = new EventEmitter();
-        this.connectionStoreController = connectionStoreController;
+        this.eventEmitter = new EventEmitter();
     }
 
-    emmit<P>(event: typeof EVENT_TYPES[keyof typeof EVENT_TYPES], payload: P, ...rest) {
-        this.eventEmmitor.emit(event, payload, ...rest);
+
+    emmit<EVENT extends keyof Events>(event: EVENT, ...args: Events[EVENT]) {
+        this.eventEmitter.emit(event, ...args);
     }
 
-    setEventListener(event: typeof EVENT_TYPES[keyof typeof EVENT_TYPES], listener) {
-        this.eventEmmitor.on(event, listener);
+    setEventListener<EVENT extends keyof Events>(event: EVENT, listener: (...args: Events[EVENT]) => void) {
+        this.eventEmitter.on(event, listener as (...args: unknown[]) => void);
     }
 
 }

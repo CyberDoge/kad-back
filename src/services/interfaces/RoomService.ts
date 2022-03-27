@@ -5,4 +5,5 @@ export interface RoomService {
 
     createRoom(ownerId: UserType['id'], members: UserType['id'][]): Promise<RoomType>;
 
+    isUserInRoom(userId: UserType['id'], roomId: RoomType['id']): Promise<boolean>;
 }

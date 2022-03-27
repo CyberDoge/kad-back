@@ -8,7 +8,7 @@
   "homepage": "https://github.com/CyberDoge/kad-back#readme",
   "scripts": {
     "develop": " ts-node src/index.ts",
-    "test": "echo 'no test'",
+    "test": "mocha --reporter spec",
     "build": "tsc --build",
     "start:prod": "node dist/index.js",
     "lint": "eslint . --ext .ts --fix"
@@ -51,6 +51,7 @@
     "@typescript-eslint/parser": "^5.10.0",
     "eslint": "^8.7.0",
     "eslint-plugin-import": "^2.25.4",
+    "mocha": "^9.2.2",
     "nodemon": "^2.0.15",
     "ts-node": "^10.4.0",
     "tsconfig-paths": "^3.12.0",

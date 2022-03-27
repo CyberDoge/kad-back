@@ -1,12 +1,13 @@
-import {ChatController} from 'src/chat/ChatController';
-import {ConnectionStore} from 'src/chat/connectionStore';
+import {ConnectionStore, ConnectionStoreController} from 'src/chat/connectionStore';
+import {ChatEventEmitter} from 'src/chat/eventEmitter';
 import {container} from 'src/ioc/iocContainer';
 import {TYPES} from 'src/ioc/iocTypes';
 import {
     EventService,
     LoginService,
     NewlyContractService,
-    OrderService, RoomService,
+    OrderService,
+    RoomService,
     UserCompetenceService,
     UserService
 } from 'src/services/interfaces';
@@ -27,7 +28,8 @@ export const resolvedDependencies = () => {
     const roomService = container.get<RoomService>(TYPES.RoomService);
 
     const connectionStore = container.get<ConnectionStore>(TYPES.ConnectionStore);
-    const chatController = container.get<ChatController>(TYPES.ChatController);
+    const connectionStoreController = container.get<ConnectionStoreController>(TYPES.ConnectionStore);
+    const chatEventEmitter = container.get<ChatEventEmitter>(TYPES.ChatEventEmitter);
 
     const orderInteractor = container.get<OrderInteractor>(TYPES.OrderInteractor);
     const userInteractor = container.get<UserInteractor>(TYPES.UserInteractor);
@@ -41,13 +43,14 @@ export const resolvedDependencies = () => {
         newlyContractService,
         eventService,
         userCompetenceService,
+        roomService,
         orderInteractor,
         userInteractor,
         registrationInteractor,
         chatInteractor,
         connectionStore,
-        chatController,
-        roomService,
+        connectionStoreController,
+        chatEventEmitter,
     };
 
 };
