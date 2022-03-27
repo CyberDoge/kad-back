@@ -1,4 +1,4 @@
-import {parseISO} from 'date-fns';
+import {isValid, parseISO} from 'date-fns';
 import fs from 'fs';
 import path from 'path';
 import {cwd} from 'process';
@@ -19,7 +19,7 @@ async function readFromFile(fileName: string): Promise<object> {
     }
 
     return JSON.parse(await fs.promises.readFile(DB_FOLDER_PATH + fileName, 'utf8'), (k, v) =>
-        k.toLocaleLowerCase().includes('date') && typeof v === 'string' ? parseISO(v) : v);
+        k.toLocaleLowerCase().includes('date') && typeof v === 'string' && isValid(parseISO(v)) ? parseISO(v) : v);
 }
 
 function writeToFile(fileName: string) {
