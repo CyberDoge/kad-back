@@ -1,8 +1,8 @@
 import {internalization} from 'src/internalization';
 import {UserService} from 'src/services/interfaces';
 import {Context} from 'src/types/Context';
-import {CurrentUserResponse} from 'src/types/response';
-import {mapUserDetailToCurrentUserResponse} from 'src/utils/typeMappers';
+import {CurrentUserResponse, UserResponse} from 'src/types/response';
+import {mapUserDetailToCurrentUserResponse, mapUserDetailToUserResponse} from 'src/utils/typeMappers';
 
 export const user = (userService: UserService) =>
     ({
@@ -14,4 +14,10 @@ export const user = (userService: UserService) =>
 
             return mapUserDetailToCurrentUserResponse(userData);
         },
+        users: async (_, {userIds}: { userIds: string[] }): Promise<UserResponse[]> => {
+            const userDetails = await Promise.all(userIds.map(userService.getAllUserDataById));
+
+            return userDetails.flatMap((user) => user ? [mapUserDetailToUserResponse(user)] : []);
+
+        }
     });

@@ -3,6 +3,7 @@ import {MessageType, OrderFilterType, UserCompetenceType, UserDetailType, UserTy
 import {ContextUser} from 'src/types/ContextUser';
 import {OrderFilter, UserDetailsRequest} from 'src/types/request';
 import {CurrentUserResponse, MessageResponse} from 'src/types/response';
+import {UserResponse} from 'src/types/response/UserResponse';
 
 export function mapUserDetailToCurrentUserResponse(user: Partial<UserDetailType & UserCompetenceType> & UserType)
     : CurrentUserResponse {
@@ -30,6 +31,16 @@ export function mapUserDetailRequestToUserDetail(userDetailsRequest: UserDetails
         avatarUrl: userDetailsRequest.avatarUrl,
         phones: userDetailsRequest.phones || [],
         emails: userDetailsRequest.emails || []
+    };
+}
+
+export function mapUserDetailToUserResponse(userDetail: Partial<UserDetailType>): UserResponse {
+    return {
+        id: userDetail.userId,
+        avatarUrl: userDetail.avatarUrl,
+        firstName: userDetail.firstName,
+        secondName: userDetail.secondName,
+        thirdName: userDetail.thirdName,
     };
 }
 

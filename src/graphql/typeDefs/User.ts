@@ -15,6 +15,14 @@ export const User = gql`
         pdfResume: String
     }
 
+    type UserResponse {
+        id: String
+        avatarUrl: String,
+        firstName: String,
+        secondName: String,
+        thirdName: String,
+    }
+
     type WorkExperience {
         placeOfWork: String,
         position: String,
@@ -46,6 +54,7 @@ export const User = gql`
 
     extend type Query {
         currentUser: CurrentUser
+        users(userIds: [String!]): [UserResponse]
     }
     extend type Mutation {
         updateCurrentUserDetails(userDetailsRequest: UserDetailsRequest!): Boolean

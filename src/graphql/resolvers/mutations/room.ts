@@ -10,6 +10,6 @@ export const room = (roomService: RoomService, userCompetenceService: UserCompet
                 return null;
             }
 
-            return await roomService.createRoom(user.id, [competence.userId]);
+            return await roomService.createRoom(user.id, [competence.userId, user.id]);
         },
     });
